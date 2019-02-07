@@ -221,62 +221,71 @@ router.get("/schedule", function (req, res, next) {
     } else res.status(403).send('Unknown session');
 });
 //========================== SAVE schedule===========================//
-function saveLesson(req, classroomId, LessonId, callback) {
+function saveLesson(req, classroomId, LessonId, callback) {    
     Classroom.findById(classroomId, {SchoolId: req.body.SchoolId}, null, function (err, classroom) {
         if (err) {
             callback(err);
-        } else {
-            var lesson = new Lesson();
-            lesson.ClassroomId = classroomId;
-            lesson.UserId = req.user.id;
-            lesson.SchoolId = req.body.SchoolId;
-            if (req.body.hasOwnProperty("startDate")) {
-                lesson.startDateTs = new Date(req.body.startDate).getTime();
-            } else {
-                lesson.startDateTs = new Date().getTime();
-            }
-            switch (req.body.activation) {
-                case "unlimited":
-                    lesson.endDateTs = 0;
-                    break;
-                case "duration":
-                    lesson.endDateTs = new Date(lesson.startDateTs + (req.body.duration * 60 * 1000)).getTime();
-                    break;
-                case "until":
-                    lesson.endDateTs = new Date(req.body.endDate).getTime();
-                    break;
-            }
-            var lessonToDb = new Lesson.LessonSeralizer(lesson);
-            if (LessonId != null) {
-                lessonToDb.updateDB(LessonId, function (err) {
-                    if (err) callback(err);
-                    else if (lesson.startDateTs > new Date().getTime()) callback(null);
-                    else {
-                        if (classroom.DeviceId > 0) {
-                            Control.enableWiFi(classroom.DeviceId, lesson.SchoolId, LessonId, function (err) {
-                                callback(err);
-                            })
-                        } else {
-                            callback(err);
-                        }
-                    }
-                });
-            } else {
-                lessonToDb.insertDB(function (err, LessonId) {
-                    if (err) callback(err);
-                    else if (lesson.startDateTs > new Date().getTime()) callback(null);
-                    else {
-                        if (classroom.DeviceId > 0) {
+        } else {   
+            School.findById(req.body.SchoolId, null, null, function(err, school){
+                if (err) {
+                    callback(err);
+                } else {             
+                    var lesson = new Lesson();
+                    lesson.ClassroomId = classroomId;
+                    lesson.UserId = req.user.id;
+                    lesson.SchoolId = req.body.SchoolId;
 
-                            Control.enableWiFi(classroom.DeviceId, lesson.SchoolId, LessonId, function (err) {
-                                callback(err);
-                            });
-                        } else {
-                            callback(err);
-                        }
+                    if (req.body.hasOwnProperty("startDate")) {
+                        lesson.startDateTs = new Date(req.body.startDate).getTime();
+                    } else {
+                        lesson.startDateTs = new Date().getTime();
                     }
-                });
-            }
+                    switch (req.body.activation) {
+                        case "unlimited":
+                            lesson.endDateTs = 0;
+                            break;
+                        case "duration":
+                            lesson.endDateTs = new Date(lesson.startDateTs + (req.body.duration * 60 * 1000)).getTime();
+                            break;
+                        case "until":
+                            lesson.endDateTs = new Date(req.body.endDate).getTime();
+                        case "duringMultipleLesson":
+                            lesson.endDateTs = new Date(lesson.startDateTs + (req.body.lessonNumberValue * school.lessonDuration * 60 * 1000)).getTime();
+                            break;
+                    }
+                    var lessonToDb = new Lesson.LessonSeralizer(lesson);
+                    if (LessonId != null) {
+                        lessonToDb.updateDB(LessonId, function (err) {
+                            if (err) callback(err);
+                            else if (lesson.startDateTs > new Date().getTime()) callback(null);
+                            else {
+                                if (classroom.DeviceId > 0) {
+                                    Control.enableWiFi(classroom.DeviceId, lesson.SchoolId, LessonId, function (err) {
+                                        callback(err);
+                                    })
+                                } else {
+                                    callback(err);
+                                }
+                            }
+                        });
+                    } else {
+                        lessonToDb.insertDB(function (err, LessonId) {
+                            if (err) callback(err);
+                            else if (lesson.startDateTs > new Date().getTime()) callback(null);
+                            else {
+                                if (classroom.DeviceId > 0) {
+
+                                    Control.enableWiFi(classroom.DeviceId, lesson.SchoolId, LessonId, function (err) {
+                                        callback(err);
+                                    });
+                                } else {
+                                    callback(err);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     });
 }

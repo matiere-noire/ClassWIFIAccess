@@ -65,6 +65,8 @@ var en = {
         unlimited: "Until manual deactivation",
         timeLimited: "For a limited period of time",
         dateLimited: "Until a defined date",
+        duringMultipleLesson : "During one or multiple Lesson",
+        lessonNumberValue : "Number of lessons",
         durationValue: "Active time (in minutes)",
         untilValue: "Deactivation date",
         isConnected: "Device {{hostName}} is connected.",
@@ -152,7 +154,8 @@ var en = {
             ssh_password_confirm: "Confirm SSH password",
             password_placeholder:"Password not changed",
             delete_class_title:"Do you want to remove this class?",
-            delete_school_title:"Do you want to remove this school?"
+            delete_school_title:"Do you want to remove this school?",
+            lessonDuration:"Lesson duration (in minutes)"
         },
         api: {
             title:"API configuration",

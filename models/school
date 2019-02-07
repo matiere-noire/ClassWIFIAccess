@@ -6,6 +6,7 @@ function SchoolSerializer(row){
     this.school.accessMethod = row.accessMethod;
     this.school.sshAdmin = row.sshAdmin;
     this.school.sshPassword = row.sshPassword;
+    this.school.lessonDuration = row.lessonDuration;
 }
 
 
@@ -27,6 +28,7 @@ function School(){
     this.accessMethod="";
     this.sshAdmin="";
     this.sshPassword="";
+    this.lessonDuration=60;
 }
 
 findOne = function(filters, options, callback){

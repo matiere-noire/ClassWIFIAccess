@@ -51,6 +51,8 @@ var fr = {
         unlimited: "Jusqu'à désactivation manuelle",
         timeLimited: "Pendant une durée limitée",
         dateLimited: "Jusqu'à une date définie",
+        duringMultipleLesson : "Durée d'activation entre un ou plusieurs cours",
+        lessonNumberValue : "Nombre de cours",
         durationValue: "Durée d'activation (en minutes)",
         untilValue: "Date de désactivation",
         isConnected: "L'équipement {{hostName}} est connecté.",
@@ -138,7 +140,8 @@ var fr = {
             ssh_password_confirm: "Confirmation du mot de passe SSH",
             password_placeholder:"Mot de passe non modifié",
             delete_class_title:"Voulez vous supprimer cette classe?",
-            delete_school_title:"Voulez vous supprimer cette école?"
+            delete_school_title:"Voulez vous supprimer cette école?",
+            lessonDuration:"Durée d'un cours (en minute)"
         },
         api: {
             title:"Configuration de l'API",
