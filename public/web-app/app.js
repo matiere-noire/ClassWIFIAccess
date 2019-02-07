@@ -58,6 +58,21 @@ cwa
             .usePostCompiling(true)
             .useSanitizeValueStrategy("escapeParameters");
 
+    }).value('scDateTimeI18n', {
+        previousMonth: "Previous Month",
+        nextMonth: "Next Month",
+        incrementHours: "Increment Hours",
+        decrementHours: "Decrement Hours",
+        incrementMinutes: "Increment Minutes",
+        decrementMinutes: "Decrement Minutes",
+        switchAmPm: "Switch AM/PM",
+        now: "Maintenant",
+        cancel: "Annuler",
+        save: "Sauvegarder",
+        weekdays: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+        switchTo: 'Switch to',
+        clock: 'Clock',
+        calendar: 'Calendrier'
     });
 
 
