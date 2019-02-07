@@ -64,7 +64,8 @@
                                        ng-click="editSchedule(lesson)">
                                 <md-icon class="material-icons">edit</md-icon>
                             </md-button>
-                            <md-button class="md-warn tm-action-button" ng-click="deleteSchedule(lesson.id)">
+                            <md-button ng-disabled="lesson.lessonStatus == 'past'" class="md-warn tm-action-button" 
+                                       ng-click="deleteSchedule(lesson.id)">
                                 <md-icon class="material-icons">delete</md-icon>
                             </md-button>
                         </td>
