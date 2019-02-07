@@ -44,10 +44,10 @@
                             <div>{{lesson.classroomName}}</div>
                         </td>
                         <td md-cell>
-                            <div>{{lesson.startDate | date: 'short'}}</div>
+                            <div>{{lesson.startDate | date: 'd/M/yy h:mm a'}}</div>
                         </td>
                         <td md-cell>
-                            <div>{{lesson.endDate | date: 'short'}}</div>
+                            <div>{{lesson.endDate |  date: 'd/M/yy h:mm a'}}</div>
                         </td>
                         <td md-cell>
                             <div ng-bind-html="lesson.lessonStatus | scheduleStatus"></div>

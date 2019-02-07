@@ -56,7 +56,7 @@
                                     <div ng-bind-html="user.userEnable | userStatus"></div>
                                 </td>
                                 <td md-cell>
-                                    <div>{{user.lastLogin | date: 'short'}}</div>
+                                    <div>{{user.lastLogin | date: 'd/M/yy h:mm a'}}</div>
                                 </td>
                                 <td md-cell>
                                     <md-button class="md-warn tm-action-button" ng-click="deleteUser(user.id)">
