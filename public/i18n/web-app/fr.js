@@ -81,7 +81,7 @@ var fr = {
         startDate : "Date de début",
         endDate : "Date de fin",
         status: "Status",
-        teacher: "Profresseur",
+        teacher: "Professeur",
         action: "Action",
         finished : "Terminé",
         inProgress : "En cours",
