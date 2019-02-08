@@ -337,6 +337,7 @@ angular.module("Modals").controller("DialogMyAccountController", function ($scop
 
 angular.module("Modals").controller("DialogEnableController", function ($scope, $rootScope, $mdDialog, scheduleService, settingsClassroomsService, items) {
     $scope.classrooms;
+    $scope.classroomsToActivate = items.classrooms;
 
     if (items.hasOwnProperty('classroom')) {
         $scope.classroom = items.classroom;
@@ -378,7 +379,7 @@ angular.module("Modals").controller("DialogEnableController", function ($scope, 
     $scope.isWorking = false;
 
     $scope.isNotValid = function () {
-        if ($scope.schedule.ClassroomId == 0) return true;
+        if ($scope.schedule.ClassroomId == 0 && !items.hasOwnProperty('classrooms')) return true;
         else if ($scope.schedule.activation == "unlimited") return false;
         else if ($scope.schedule.activation == "duration" && $scope.schedule.duration > 0) return false;
         else if ($scope.schedule.activation == "until" && $scope.schedule.endDate > new Date()) return false;
@@ -388,10 +389,16 @@ angular.module("Modals").controller("DialogEnableController", function ($scope, 
 
     $scope.save = function () {
         $scope.isWorking = true;
-        var createSchedule = scheduleService.createSchedule($scope.schedule);
-        createSchedule.then(function (promise) {
+        var promiseSchedule;
+
+        if(items.hasOwnProperty('classrooms')){
+            promiseSchedule = scheduleService.createMultipleSchedule($scope.schedule, items.classrooms);
+        }else{
+            promiseSchedule = scheduleService.createSchedule($scope.schedule);  
+        }      
+        promiseSchedule.then(function (resolve) {
             $scope.isWorking = false;
-            if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
+            if (resolve && resolve.error) $rootScope.$broadcast("apiWarning", resolve.error);
             else $mdDialog.hide();
         })
     };

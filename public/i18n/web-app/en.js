@@ -40,7 +40,9 @@ var en = {
         filter: "Filter",
         enable: 'Enable',
         disable: "Disable",
-        plan: "Plan activation"
+        plan: "Plan activation",
+        activateWifiAll:"Activate for all classrooms",
+        disableWifiAll:"Deactivate for all classrooms"
     },
     modals: {
         confirm: "Confirmation request",
@@ -50,6 +52,7 @@ var en = {
         removeClassroom: "Do you want to remove this classroom?",
         removeSchedule:"Do you want to remove this Wi-Fi activation?",
         disableWifiForClassroom: "Deactivate Wi-Fi for this classroom ",
+        disableWifiForAllClassrooms: "Deactivate Wi-Fi for all classrooms ",
         wifiDeactivation: "Do you want to deactivate Wi-Fi?"
     },
     classroom: {

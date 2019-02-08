@@ -11,7 +11,7 @@
     <md-progress-linear ng-show="isWorking" md-mode="indeterminate"
                         class="md-accent"></md-progress-linear>
     <md-content layout="column" layout-padding>
-        <md-input-container ng-show="classroom == null" class="md-block">
+        <md-input-container ng-show="classroom == null && classroomsToActivate == null " class="md-block">
             <label for="classroom"><span translate="schedule.classroom"></span>
                 <span style="color: red">*</span></label>
             <md-select id="classroom" ng-model="schedule.ClassroomId">

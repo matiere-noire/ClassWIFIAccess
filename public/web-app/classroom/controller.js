@@ -66,6 +66,40 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
             })
         })
     };
+
+    $scope.activateAll = function(classrooms){
+        $mdDialog.show({
+            controller: 'DialogEnableController',
+            templateUrl: 'modals/modalEnableContent.html',
+            locals: {
+                items: {
+                    classrooms: classrooms
+                }
+            }
+        }).then(function () {
+            getClassrooms();
+        });        
+    };
+
+    
+    $scope.deactivateAll = function(classrooms){
+        $mdDialog.show({
+            controller: "DialogConfirmController",
+            templateUrl: "modals/modalConfirmContent.html",
+            locals: {
+                items: {
+                    action: 'disableWifiForAllClassrooms'
+                }
+            }
+        }).then(function(){
+            getClassrooms();
+            var disableMultipleSchedule = scheduleService.disableScheduleForMultipleClassrooms($rootScope.schoolId, classrooms);
+            disableMultipleSchedule.then(function (promise) {
+                if (promise && promise.error) $scope.$broadcast("apiError", promise.error);
+            })
+        })
+    };
+
     function getClassrooms() {
         requestForClassrooms = classroomService.getClassroomDevices();
         requestForClassrooms.then(function (promise) {

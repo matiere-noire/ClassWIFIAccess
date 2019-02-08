@@ -27,7 +27,9 @@ var fr = {
         filter: "Filtre",
         enable: 'Activer',
         disable: "Désactiver",
-        plan: "Planifier activation"
+        plan: "Planifier activation",
+        activateWifiAll:"Activer pour toutes les classes",
+        disableWifiAll:"Désactiver pour toutes les classes"
     },
     modals: {
         confirm: "Demande de confirmation",
@@ -37,6 +39,7 @@ var fr = {
         removeClassroom: "Voulez vous supprimer cette salle de classe?",
         removeSchedule:"Voulez vous supprimer cette activation du Wi-Fi?",
         disableWifiForClassroom: "Désactiver le Wi-Fi pour cette salle de classe?",
+        disableWifiForAllClassrooms: "Désactiver le Wi-Fi pour toutes les classes?",
         wifiDeactivation: "Voulez-vous désactiver le Wi-Fi?"
     },
     classroom: {

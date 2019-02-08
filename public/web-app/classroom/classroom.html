@@ -14,6 +14,22 @@
             <md-icon class="material-icons search-tool">search</md-icon>
             <label for="filter" translate="button.filter" style="bottom: 60px"></label>
             <input ng-model="table.filter" id="filter" ng-change="changeFilter()">
+        </md-input-container>        
+    </div>
+    <div md-whiteframe="1" layout="column" layout-gt-sm="row" ng-hide="classroomsFiltered.length == 0" >
+        <md-input-container class="md-block search-tool" style="text-align: center; margin: 0; padding: 10px 0;">
+            <md-button 
+                class="md-raised" 
+                translate="button.activateWifiAll" 
+                aria-label="enable" 
+                ng-click="activateAll(classroomsFiltered)"
+            ></md-button>
+            <md-button 
+                class="md-raised"
+                translate="button.disableWifiAll" 
+                aria-label="disable"
+                ng-click="deactivateAll(classroomsFiltered)"
+            ></md-button>
         </md-input-container>
     </div>
 

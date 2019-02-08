@@ -223,6 +223,24 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
         });
         return promise;
     }
+
+    function createMultipleSchedule(schedule, classrooms){
+        var promises = [];
+        classrooms.forEach( function(classroom){
+            schedule.ClassroomId = classroom.id;
+            promises.push(createSchedule(schedule));
+        });
+
+        return $q.all(promises);
+    }
+
+    function disableScheduleForMultipleClassrooms(SchoolId, classrooms){
+        var promises = [];
+        classrooms.forEach( function(classroom){
+            promises.push(disableScheduleForClassroom(SchoolId, classroom.id));
+        });
+        return $q.all(promises);
+    }
     
     return {
         getSchedule: getSchedule,
@@ -231,6 +249,8 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
         disableSchedule: disableSchedule,
         deleteSchedule: deleteSchedule,
         updateSchedule: updateSchedule,
+        createMultipleSchedule: createMultipleSchedule,
+        disableScheduleForMultipleClassrooms: disableScheduleForMultipleClassrooms,
         isLoaded: function () {
             return isLoaded;
         }
