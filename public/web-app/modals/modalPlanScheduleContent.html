@@ -54,6 +54,15 @@
                                       data-mindate=minDate>
                     </time-date-picker>
             </div>
+            <md-radio-button value="duringMultipleLesson" class="md-primary" aria-label="duringMultipleLesson">
+                <span translate="classroom.duringMultipleLesson"></span>
+            </md-radio-button>
+            <div ng-show="schedule.activation == 'duringMultipleLesson'">
+                <md-input-container style="width: 100%">
+                    <label translate="classroom.lessonNumberValue"></label>
+                    <input type="number" min="1" max="3" ng-model="schedule.lessonNumberValue" aria-label="lesson_number_value"/>
+                </md-input-container>
+            </div>
 
         </md-radio-group>
     </md-content>

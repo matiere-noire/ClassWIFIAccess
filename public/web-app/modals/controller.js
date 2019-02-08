@@ -496,7 +496,8 @@ angular.module("Modals").controller("DialogPlanScheduleController", function ($s
             activation: null,
             duration: 60,
             startDate: new Date(),
-            endDate: new Date()
+            endDate: new Date(),
+            lessonNumberValue: 1
         };
         $scope.isWorking = true;
         $scope.classroom = null;
@@ -520,6 +521,7 @@ angular.module("Modals").controller("DialogPlanScheduleController", function ($s
         else if ($scope.schedule.activation == "unlimited") return false;
         else if ($scope.schedule.activation == "duration" && $scope.schedule.duration > 0) return false;
         else if ($scope.schedule.activation == "until" && $scope.schedule.endDate > new Date()) return false;
+        else if ($scope.schedule.activation == "duringMultipleLesson" && $scope.schedule.lessonNumberValue >= 1 && $scope.schedule.lessonNumberValue <= 3) return false;
         else return true;
     };
 
