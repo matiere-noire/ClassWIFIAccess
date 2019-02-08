@@ -476,25 +476,39 @@ angular.module("Modals").controller("DialogScheduleController", function ($scope
 
 angular.module("Modals").controller("DialogPlanScheduleController", function ($scope, $rootScope, $mdDialog, scheduleService, settingsClassroomsService, items) {
 
-    $scope.schedule = {
-        action: "enable",
-        SchoolId: $rootScope.schoolId,
-        ClassroomId: 0,
-        activation: null,
-        duration: 60,
-        startDate: new Date(),
-        endDate: new Date()
-    };
-    $scope.isWorking = true;
-    $scope.classroom = null;
-    var requestForClassrooms = settingsClassroomsService.getClassrooms();
-    requestForClassrooms.then(function (promise) {
-        if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
-        else {
-            $scope.classrooms = promise.classrooms;
-            $scope.isWorking = false;
-        }
-    });
+    if (items.hasOwnProperty('classroom')) {
+        $scope.classroom = items.classroom;
+        $scope.schedule = {
+            action: "enable",
+            SchoolId: $rootScope.schoolId,
+            ClassroomId: items.classroom.id,
+            activation: null,
+            duration: 60,
+            endDate: new Date(),
+            lessonNumberValue: 1
+        };
+    }
+    else {
+        $scope.schedule = {
+            action: "enable",
+            SchoolId: $rootScope.schoolId,
+            ClassroomId: 0,
+            activation: null,
+            duration: 60,
+            startDate: new Date(),
+            endDate: new Date()
+        };
+        $scope.isWorking = true;
+        $scope.classroom = null;
+        var requestForClassrooms = settingsClassroomsService.getClassrooms();
+        requestForClassrooms.then(function (promise) {
+            if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
+            else {
+                $scope.classrooms = promise.classrooms;
+                $scope.isWorking = false;
+            }
+        });
+    }
 
 
     $scope.minDate = new Date();

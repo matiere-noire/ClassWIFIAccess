@@ -34,13 +34,13 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         return classroomService.isLoaded();
     };
 
-    $scope.activation = function(classromm){
+    $scope.activation = function(classroom){
         $mdDialog.show({
             controller: 'DialogEnableController',
             templateUrl: 'modals/modalEnableContent.html',
             locals: {
                 items: {
-                    classroom: classromm
+                    classroom: classroom
                 }
             }
         }).then(function () {
@@ -65,6 +65,20 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
 
             })
         })
+    };
+
+    $scope.planSchedule = function(classroom) {
+        $mdDialog.show({
+            controller: "DialogPlanScheduleController",
+            templateUrl: "modals/modalPlanScheduleContent.html",
+            locals: {
+                items: {
+                    classroom: classroom
+                }
+            }
+        }).then(function () {
+            getSchedule();
+        });
     };
 
     $scope.activateAll = function(classrooms){
