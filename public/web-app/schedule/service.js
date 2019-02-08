@@ -53,7 +53,7 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
             data: schedule,
             timeout: canceller.promise
         });
-
+        
         promise = request.then(
             function (response) {
                 if (response.data.error) return response.data;
@@ -191,39 +191,6 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
         return promise;
     }
 
-    function updateSchedule(lessonId, lesson) {
-        if (promise) promise.abort();
-
-        var canceller = $q.defer();
-        var request = $http({
-            url: "/api/schedule",
-            method: "POST",
-            data: {lessonId: lessonId, lesson: lesson},
-            timeout: canceller.promise
-        });
-
-        promise = request.then(
-            function (response) {
-                if (response.data.error) return response.data;
-                else return response
-            },
-            function (response) {
-                if (response.status && response.status >= 0) {
-                    $rootScope.$broadcast('serverError', response);
-                    return ($q.reject("error"));
-                }
-            });
-        promise.abort = function () {
-            canceller.resolve();
-        };
-        promise.finally(function () {
-            //console.info("Cleaning up object references.");
-            promise.abort = angular.noop;
-            canceller = request = promise = null;
-        });
-        return promise;
-    }
-
     function createMultipleSchedule(schedule, classrooms){
         var promises = [];
         classrooms.forEach( function(classroom){
@@ -248,7 +215,6 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
         disableScheduleForClassroom: disableScheduleForClassroom,
         disableSchedule: disableSchedule,
         deleteSchedule: deleteSchedule,
-        updateSchedule: updateSchedule,
         createMultipleSchedule: createMultipleSchedule,
         disableScheduleForMultipleClassrooms: disableScheduleForMultipleClassrooms,
         isLoaded: function () {

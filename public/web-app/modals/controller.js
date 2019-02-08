@@ -411,33 +411,30 @@ angular.module("Modals").controller("DialogEnableController", function ($scope, 
 
 angular.module("Modals").controller("DialogScheduleController", function ($scope, $rootScope, $mdDialog, scheduleService, settingsClassroomsService, items) {
 
-    if (items.schedule) {
-        $scope.schedule = {
-            ClassroomId: items.schedule.ClassroomId,
-            SchoolId: items.schedule.SchoolId,
-            startDate: items.schedule.startDate
-        };
-        $scope.scheduleId = items.schedule.id;
-        if ($scope.schedule.endDateTs > 0) {
+    $scope.schedule = {
+        action: "enable",
+        ClassroomId: items.schedule.ClassroomId, 
+        SchoolId: items.schedule.SchoolId, 
+        UserId: items.schedule.UserId, 
+        lessonId: items.schedule.id,      
+        startDate: items.schedule.startDate, 
+        endDate: items.schedule.endDate, 
+        activation: null,
+        duration: 60,     
+        lessonNumberValue: 1
+    }
+    $scope.classroomName = items.schedule.classroomName;
 
-            $scope.schedule.activation = "until";
-            $scope.schedule.endDate = new Date($scope.schedule.endDate);
-        } else {
-            $scope.schedule.activation = "unlimited";
-            $scope.schedule.endDate = new Date();
-        }
+    if ($scope.schedule.endDateTs > 0) {
+
+        $scope.schedule.activation = "until";
+        $scope.schedule.endDate = new Date($scope.schedule.endDate);
     } else {
-        $scope.schedule = {
-            ClassroomId: 0,
-            SchoolId: $rootScope.SchoolId,
-            startDate: new Date(),
-            activation: "unlimited",
-            endDate: new Date()
-        }
+        $scope.schedule.activation = "unlimited";
+        $scope.schedule.endDate = new Date();
     }
 
     $scope.isWorking = true;
-    $scope.classroom = null;
     var requestForClassrooms = settingsClassroomsService.getClassrooms();
     requestForClassrooms.then(function (promise) {
         if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
@@ -455,12 +452,14 @@ angular.module("Modals").controller("DialogScheduleController", function ($scope
         else if ($scope.schedule.activation == "unlimited") return false;
         else if ($scope.schedule.activation == "duration" && $scope.schedule.duration > 0) return false;
         else if ($scope.schedule.activation == "until" && $scope.schedule.endDate > $scope.schedule.startDate) return false;
+        else if ($scope.schedule.activation == "duringMultipleLesson" && $scope.schedule.lessonNumberValue >= 1 && $scope.schedule.lessonNumberValue <= 3) return false;
         else return true;
     };
 
     $scope.save = function () {
+        console.log('save', $scope.schedule);
         $scope.isWorking = true;
-        var createSchedule = scheduleService.updateSchedule($scope.scheduleId, $scope.schedule);
+        var createSchedule = scheduleService.createSchedule($scope.schedule);
         createSchedule.then(function (promise) {
             $scope.isWorking = false;
             if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);

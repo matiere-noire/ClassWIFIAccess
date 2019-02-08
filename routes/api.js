@@ -274,7 +274,6 @@ function saveLesson(req, classroomId, LessonId, callback) {
                             else if (lesson.startDateTs > new Date().getTime()) callback(null);
                             else {
                                 if (classroom.DeviceId > 0) {
-
                                     Control.enableWiFi(classroom.DeviceId, lesson.SchoolId, LessonId, function (err) {
                                         callback(err);
                                     });
@@ -319,13 +318,22 @@ router.delete("/schedule", function (req, res) {
     } else res.status(403).send('Unknown session');
 });
 
+//========================= SAVE LESSON =========================//
 router.post("/schedule", function (req, res) {
     if (req.session.hasOwnProperty('passport')) {
         // Create the lesson from the "Classroom Page"
         if (req.body.hasOwnProperty("SchoolId")) {
             if (req.session.passport.user.GroupId == 1 || req.session.passport.user.SchoolId == req.body.SchoolId) {
                 if (req.body.hasOwnProperty('action')) {
-                    if (req.body.action == 'enable') {
+                    if(req.body.hasOwnProperty("lessonId")){
+                        if (req.body.hasOwnProperty("ClassroomId")) {
+                            saveLesson(req, req.body.ClassroomId, req.body.lessonId, function (err) {
+                                if (err) res.json({error: err});
+                                else res.json({});
+                            });
+                        } else res.json({error: "classroomId is missing"});
+                    }
+                    else if (req.body.action == 'enable') {
 
                         if (req.body.hasOwnProperty("ClassroomId")) {
                             saveLesson(req, req.body.ClassroomId, null, function (err) {
@@ -375,14 +383,6 @@ router.post("/schedule", function (req, res) {
                 } else res.json({error: "missing action"});
 
             } else res.json({error: "You don't have enough permission to create a schedule for this school"});
-
-            // Edit the lesson
-        } else if (req.body.hasOwnProperty("lesson") && req.body.hasOwnProperty("lessonId")) {
-            var LessonToDb = new Lesson.LessonSeralizer(req.body.lesson);
-            LessonToDb.updateDB(req.body.lessonId, function (err) {
-                if (err) res.json({error: err});
-                else res.json({});
-            });
         } else res.json({error: "SchoolId, lesson or lessonId are missing"});
     } else res.status(403).send('Unknown session');
 });
