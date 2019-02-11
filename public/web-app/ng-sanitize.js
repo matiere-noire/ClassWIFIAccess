@@ -18,6 +18,9 @@
 
   var $sanitizeMinErr = angular.$$minErr('$sanitize');
 
+  
+angular.lowercase = text => text.toLowerCase();
+
   /**
    * @ngdoc module
    * @name ngSanitize
