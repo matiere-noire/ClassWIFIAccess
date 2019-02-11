@@ -194,8 +194,9 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
     function createMultipleSchedule(schedule, classrooms){
         var promises = [];
         classrooms.forEach( function(classroom){
-            schedule.ClassroomId = classroom.id;
-            promises.push(createSchedule(schedule));
+            var classRoomSchedule = JSON.parse(JSON.stringify(schedule));
+            classRoomSchedule.ClassroomId = classroom.id;
+            promises.push(createSchedule(classRoomSchedule));
         });
 
         return $q.all(promises);
