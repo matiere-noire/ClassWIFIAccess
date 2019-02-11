@@ -7,6 +7,27 @@
         </section>
 
         <section flex="100" ng-show="schoolSelected() == true">
+
+                <md-card style="padding: 0 15px;" >
+                    <h4 style="margin-bottom: 0;">Filtres</h4>
+                    <div layout="row">
+                        <md-input-container style="margin-right: 40px;">
+                                <label>Classe</label>
+                            <md-select id="filterClassroom" ng-model="filter.ClassroomId" aria-label="filterClassroom">
+                                <md-option ng-value="">Toutes les classes</md-option>
+                                <md-option ng-repeat="classroom in classrooms" ng-value="classroom.id">{{classroom.classroomName}}</md-option>
+                            </md-select>
+                        </md-input-container>  
+                        <md-input-container style="margin-right: 40px;">       
+                        <md-datepicker ng-model="dateFrom" md-placeholder="Date de début"></md-datepicker>
+                        </md-input-container>
+                        
+                        <md-input-container>
+                        <md-datepicker ng-model="dateTo" md-placeholder="Date de fin"></md-datepicker>
+                        </md-input-container>
+                    </div>
+                </md-card>
+            
             <md-content>
                 <md-button class="md-raised md-primary" translate="button.activateNow"
                            aria-label="activateNow" ng-click="activation()"></md-button>
@@ -17,7 +38,7 @@
                 <table md-table md-progress="requestForSchedule">
                     <thead md-head md-order="table.order">
                     <tr md-row>
-                        <th md-column style="width: 15%" md-order-by='classroom'>
+                        <th md-column style="width: 15%" md-order-by='classroomName'>
                             {{"schedule.classroom" | translate}}
                         </th>
                         <th md-column style="width: 30%" md-order-by='startDate'>
@@ -39,7 +60,7 @@
                     </thead>
                     <tbody md-body>
                     <tr md-row
-                        ng-repeat="lesson in lessons | orderBy: table.order | limitTo: itemsByPage: (currentPage - 1) * itemsByPage">
+                        ng-repeat="lesson in lessons | filter:filter | filterDate:dateFrom:dateTo | orderBy: table.order | limitTo: itemsByPage: (currentPage - 1) * itemsByPage as filteredLessons">
                         <td md-cell>
                             <div>{{lesson.classroomName}}</div>
                         </td>
@@ -75,7 +96,7 @@
             </md-table-container>
             <md-table-pagination md-limit="itemsByPage" md-limit-options="[10, 20, 50, 100 ]"
                                  md-page="currentPage"
-                                 md-total="{{lessons.length}}"></md-table-pagination>
+                                 md-total="{{filteredLessons.length}}"></md-table-pagination>
         </section>
 
     </div>

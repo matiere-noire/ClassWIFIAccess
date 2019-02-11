@@ -7,6 +7,11 @@ angular.module('Schedule').controller("ScheduleCtrl", function ($scope, $rootSco
     $scope.classrooms = [];
     $scope.schedule = [];
 
+    //filters
+    $scope.filter = {
+        ClassroomId: '',
+    };
+
     // pagination
     $scope.itemsByPage = 10;
     $scope.currentPage = 1;

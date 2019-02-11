@@ -78,3 +78,39 @@ angular.module('CustomFilters').filter('classroomDeviceStatus', function ($filte
         else return "<div class='alert-danger'>" + $filter('translate')('classroom.noDeviceConfigured') + "</div>";
     }
 });
+
+angular.module("CustomFilters").filter("filterDate", function () {
+    return function(schedules, from, to) {
+
+        var result = [],       
+           df = new Date(from).getTime(),
+           dt = new Date(to).getTime(); 
+
+        if(typeof from == 'undefined' && typeof to == 'undefined'){
+            result = schedules;
+        }else{
+            for (var i=0; i<schedules.length; i++){
+                var tf = new Date(schedules[i].startDate).getTime(),
+                    tt = new Date(schedules[i].endDate).getTime();
+                
+                if(typeof from !== 'undefined' && typeof to !== 'undefined'){
+                    if (tf > df && tt < dt)  {
+                        result.push(schedules[i]);
+                    }
+                }else if(typeof from !== 'undefined'){
+                    if (tf > df)  {
+                        result.push(schedules[i]);
+                    }
+                }else if(typeof to !== 'undefined'){
+                    if (tt < dt)  {
+                        result.push(schedules[i]);
+                    }               
+                }else{
+                    result.push(schedules[i]);
+                }
+            }         
+        }
+        
+        return result;
+    };
+});

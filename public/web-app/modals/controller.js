@@ -390,6 +390,7 @@ angular.module("Modals").controller("DialogEnableController", function ($scope, 
     $scope.save = function () {
         $scope.isWorking = true;
         var promiseSchedule;
+        console.log('yos', $scope.schedule);
 
         if(items.hasOwnProperty('classrooms')){
             promiseSchedule = scheduleService.createMultipleSchedule($scope.schedule, items.classrooms);
@@ -457,7 +458,6 @@ angular.module("Modals").controller("DialogScheduleController", function ($scope
     };
 
     $scope.save = function () {
-        console.log('save', $scope.schedule);
         $scope.isWorking = true;
         var createSchedule = scheduleService.createSchedule($scope.schedule);
         createSchedule.then(function (promise) {
@@ -525,6 +525,7 @@ angular.module("Modals").controller("DialogPlanScheduleController", function ($s
     };
 
     $scope.save = function () {
+        console.log('tmtx', $scope.schedule);
         $scope.isWorking = true;
         var createSchedule = scheduleService.createSchedule($scope.schedule);
         createSchedule.then(function (promise) {

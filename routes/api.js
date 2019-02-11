@@ -240,6 +240,7 @@ function saveLesson(req, classroomId, LessonId, callback) {
                     } else {
                         lesson.startDateTs = new Date().getTime();
                     }
+
                     switch (req.body.activation) {
                         case "unlimited":
                             lesson.endDateTs = 0;
@@ -249,10 +250,11 @@ function saveLesson(req, classroomId, LessonId, callback) {
                             break;
                         case "until":
                             lesson.endDateTs = new Date(req.body.endDate).getTime();
+                            break;
                         case "duringMultipleLesson":
                             lesson.endDateTs = new Date(lesson.startDateTs + (req.body.lessonNumberValue * school.lessonDuration * 60 * 1000)).getTime();
                             break;
-                    }
+                    }                    
                     var lessonToDb = new Lesson.LessonSeralizer(lesson);
                     if (LessonId != null) {
                         lessonToDb.updateDB(LessonId, function (err) {
