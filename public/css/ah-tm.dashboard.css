@@ -238,7 +238,7 @@ input.invalid,textarea.invalid,select.invalid {
 
 
 
-table {
+table:not(.md-calendar):not(.md-calendar-day-header) {
     width: 100% !important;
     font-size: 12px !important;
 
