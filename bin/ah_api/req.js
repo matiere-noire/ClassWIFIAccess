@@ -12,6 +12,7 @@ module.exports.apiRequest = function (api, path, callback) {
     var host = api.vpcUrl.replace('https://', "");
     var options = {
         host: host,
+        rejectUnauthorized: false,
         port: 443,
         path: path,
         method: 'GET',
