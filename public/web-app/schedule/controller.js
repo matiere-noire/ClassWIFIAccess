@@ -71,7 +71,7 @@ angular.module('Schedule').controller("ScheduleCtrl", function ($scope, $rootSco
             templateUrl: "modals/modalConfirmContent.html",
             locals: {
                 items: {
-                    action: 'disableLesson'
+                    action: 'disableWifiForClassroom'
                 }
             }
         }).then(function(){
