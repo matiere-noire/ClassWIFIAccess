@@ -5,3 +5,7 @@ local.db
 *.log
 bower_components/
 .DS_Store
+
+\.vscode/
+
+yarn\.lock

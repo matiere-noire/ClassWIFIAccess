@@ -390,8 +390,6 @@ angular.module("Modals").controller("DialogEnableController", function ($scope, 
     $scope.save = function () {
         $scope.isWorking = true;
         var promiseSchedule;
-        console.log('yos', $scope.schedule);
-
         if(items.hasOwnProperty('classrooms')){
             promiseSchedule = scheduleService.createMultipleSchedule($scope.schedule, items.classrooms);
         }else{
@@ -525,10 +523,59 @@ angular.module("Modals").controller("DialogPlanScheduleController", function ($s
     };
 
     $scope.save = function () {
-        console.log('tmtx', $scope.schedule);
         $scope.isWorking = true;
         var createSchedule = scheduleService.createSchedule($scope.schedule);
         createSchedule.then(function (promise) {
+            $scope.isWorking = false;
+            if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
+            else $mdDialog.hide();
+        })
+    };
+
+    $scope.cancel = function () {
+        $mdDialog.cancel()
+    };
+});
+
+
+
+angular.module("Modals").controller("DialogRecurrenceController", function ($scope, $rootScope, $mdDialog, recurrenceService, settingsClassroomsService, items) {
+
+    $scope.days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+
+    $scope.required = true;
+
+    $scope.recurrence = {
+        SchoolId: $rootScope.schoolId,
+        ClassroomId: null,
+        startDate: "",
+        endDate: "",
+        day: "",
+        time: "",
+        duration: 60
+    };
+    
+    
+    var requestForClassrooms = settingsClassroomsService.getClassrooms();
+    requestForClassrooms.then(function (promise) {
+        if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
+        else {
+            $scope.classrooms = promise.classrooms;
+            $scope.isWorking = false;
+        }
+    });
+ 
+    $scope.isValid = function () {
+        var recurrenceHasNoEmptyValue = true;
+        Object.keys($scope.recurrence).forEach(function(key) {
+            recurrenceHasNoEmptyValue = recurrenceHasNoEmptyValue && $scope.recurrence[key];
+        });
+       return recurrenceHasNoEmptyValue;
+    };
+
+    $scope.save = function () {
+        var createRecurrence = recurrenceService.createRecurrence($scope.recurrence);
+        createRecurrence.then(function (promise) {
             $scope.isWorking = false;
             if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);
             else $mdDialog.hide();

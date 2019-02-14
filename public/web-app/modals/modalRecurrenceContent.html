@@ -1,0 +1,62 @@
+<md-dialog aria-label="List dialog" style="min-width: 300px; width: 760px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 translate="button.createRecurrence"></h2>
+        </div>
+    </md-toolbar>
+    <div ng-show="!isWorking" style="background-color: rgb(76,175,80); height: 5px; width: 100%"></div>
+    <md-progress-linear ng-show="isWorking" md-mode="indeterminate" class="md-accent"></md-progress-linear>
+    <md-content layout="column" layout-padding>
+        <md-input-container class="md-block">
+            <label for="classroom">
+                <span translate="schedule.classroom"></span>
+                <span style="color: red">*</span>
+            </label>
+            <md-select id="classroom" ng-model="recurrence.ClassroomId">
+                <md-option ng-repeat="classroom in classrooms" ng-value="classroom.id">{{classroom.classroomName}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <div layout-gt-sm="row" class="layout-gt-sm-row">
+            <md-input-container style="margin-right: 40px; margin-bottom: 0;">
+                <label for="day">
+                    <span translate="schedule.startDate"></span>
+                    <span style="color: red">*</span>
+                </label>
+                <md-datepicker ng-model="recurrence.startDate" md-placeholder="{{'schedule.startDate' | translate}}">
+                </md-datepicker>
+            </md-input-container>
+
+            <md-input-container style="margin-bottom: 0;">
+                <label for="day">
+                    <span translate="schedule.endDate"></span>
+                    <span style="color: red">*</span>
+                </label>
+                <md-datepicker ng-model="recurrence.endDate" md-placeholder="{{'schedule.endDate' | translate}}">
+                </md-datepicker>
+            </md-input-container>
+        </div>        
+        <md-input-container class="md-block">
+            <label for="day">
+                <span translate="recurrence.dayOfTheWeek"></span>
+                <span style="color: red">*</span>
+            </label>
+            <md-select id="day" ng-model="recurrence.day">
+                <md-option ng-repeat="day in days" ng-value="day">{{ 'days.' + day | translate}}</md-option>
+            </md-select>
+        </md-input-container style="margin-left:40px">
+        <md-input-container>
+                <label translate="classroom.timeActivation"></label>
+                <input type="time" ng-model="recurrence.time" aria-label="time_value" />
+            </md-input-container>
+        <md-input-container>
+            <label translate="classroom.durationValue"></label>
+            <input type="number" ng-model="recurrence.duration" aria-label="duration_value" />
+        </md-input-container>      
+    </md-content>
+    <md-dialog-actions layout="row">
+        <md-button translate="button.cancel_button" aria-label="cancel" ng-click="cancel()"></md-button>
+        <md-button class="md-raised md-primary" translate="button.save_button" aria-label="save"
+            ng-disabled="!isValid()" ng-click="save()"></md-button>
+    </md-dialog-actions>
+</md-dialog>

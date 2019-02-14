@@ -6,14 +6,7 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
-            <span translate="modals.removeApi" ng-show="action == 'removeApi'"></span><span> </span>
-            <span translate="modals.removeSchool" ng-show="action == 'removeSchool'"></span><span> </span>
-            <span translate="modals.removeClassroom" ng-show="action == 'removeClassroom'"></span><span> </span>
-            <span translate="modals.removeSchedule" ng-show="action == 'removeSchedule'"></span><span> </span>
-            <span translate="modals.removeUser" ng-show="action == 'removeUser'"></span><span> </span>
-            <span translate="modals.disableWifiForClassroom" ng-show="action == 'disableWifiForClassroom'"></span><span> </span>
-            <span translate="modals.disableWifiForAllClassrooms" ng-show="action == 'disableWifiForAllClassrooms'"></span><span> </span>
-            <span translate="modals.wifiDeactivation" ng-show="action == 'disableLesson'"></span><span> </span>
+            <span>{{ 'modals.' + action | translate }}</span><span> </span>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">

@@ -1,11 +1,10 @@
 angular.module('Schedule').factory("scheduleService", function ($http, $q, $rootScope) {
     var isLoaded = false;
-    var promise = null;
 
 
     function getSchedule() {
         isLoaded = false;
-        if (promise) promise.abort();
+        var promise = null;
 
         var canceller = $q.defer();
         var request = $http({
@@ -44,7 +43,7 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
 
     function createSchedule(schedule){
         isLoaded = false;
-        if (promise) promise.abort();
+        var promise = null;
 
         var canceller = $q.defer();
         var request = $http({
@@ -83,7 +82,7 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
 
     function disableScheduleForClassroom(SchoolId, ClassroomId){
         isLoaded = false;
-        if (promise) promise.abort();
+        var promise = null;
 
         var canceller = $q.defer();
         var request = $http({
@@ -121,7 +120,7 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
     }
     function disableSchedule(SchoolId, ScheduleId){
         isLoaded = false;
-        if (promise) promise.abort();
+        var promise = null;
 
         var canceller = $q.defer();
         var request = $http({
@@ -159,7 +158,7 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
     }
 
     function deleteSchedule(id) {
-        if (promise) promise.abort();
+        var promise = null;
 
         var canceller = $q.defer();
         var request = $http({
@@ -193,20 +192,28 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
 
     function createMultipleSchedule(schedule, classrooms){
         var promises = [];
-        classrooms.forEach( function(classroom){
+        for(var i=0; i<classrooms.length; i++){
+            var classroom = classrooms[i];
             var classRoomSchedule = JSON.parse(JSON.stringify(schedule));
             classRoomSchedule.ClassroomId = classroom.id;
             promises.push(createSchedule(classRoomSchedule));
-        });
-
+        }
         return $q.all(promises);
     }
 
     function disableScheduleForMultipleClassrooms(SchoolId, classrooms){
         var promises = [];
-        classrooms.forEach( function(classroom){
-            promises.push(disableScheduleForClassroom(SchoolId, classroom.id));
-        });
+        for(var i=0; i<classrooms.length; i++){
+            promises.push(disableScheduleForClassroom(SchoolId, classrooms[i].id));
+        }
+        return $q.all(promises);
+    }
+
+    function deleteMultipleSchedule(ids){
+        var promises = [];
+        for(var i=0; i<ids.length; i++){
+            promises.push(deleteSchedule(ids[i]));
+        }        
         return $q.all(promises);
     }
     
@@ -218,8 +225,134 @@ angular.module('Schedule').factory("scheduleService", function ($http, $q, $root
         deleteSchedule: deleteSchedule,
         createMultipleSchedule: createMultipleSchedule,
         disableScheduleForMultipleClassrooms: disableScheduleForMultipleClassrooms,
+        deleteMultipleSchedule: deleteMultipleSchedule,
         isLoaded: function () {
             return isLoaded;
         }
     }
 });
+
+angular.module('Schedule').factory("recurrenceService", function ($http, $q, $rootScope) {
+    var isLoaded = false;
+    var promise = null;
+
+    function createRecurrence(recurrence){
+        isLoaded = false;
+        if (promise) promise.abort();
+
+        var canceller = $q.defer();
+        var request = $http({
+            url: "/api/recurrence",
+            method: "POST",
+            data: recurrence,
+            timeout: canceller.promise
+        });
+        
+        promise = request.then(
+            function (response) {
+                if (response.data.error) return response.data;
+                else {
+                    isLoaded = true;
+                    return response.data;
+                }
+            },
+            function (response) {
+                if (response.status && response.status >= 0) {
+                    $rootScope.$broadcast('serverError', response);
+                    return ($q.reject("error"));
+                }
+            });
+
+        promise.abort = function () {
+            canceller.resolve();
+        };
+        promise.finally(function () {
+           // console.info("Cleaning up object references.");
+            promise.abort = angular.noop;
+            canceller = request = promise = null;
+        });
+        return promise;
+    }
+
+    function getRecurrences() {
+        isLoaded = false;
+        if (promise) promise.abort();
+        var canceller = $q.defer();
+        var request = $http({
+            url: "/api/recurrence",
+            method: "GET",
+            params: {SchoolId: $rootScope.schoolId},
+            timeout: canceller.promise
+        });
+
+        promise = request.then(
+            function (response) {
+                if (response.data.error) return response.data;
+                else {
+                    isLoaded = true;
+                    return response.data;
+                }
+            },
+            function (response) {
+                if (response.status && response.status >= 0) {
+                    $rootScope.$broadcast('serverError', response);
+                    return ($q.reject("error"));
+                }
+            });
+
+        promise.abort = function () {
+            canceller.resolve();
+        };
+        promise.finally(function () {
+           // console.info("Cleaning up object references.");
+            promise.abort = angular.noop;
+            canceller = request = promise = null;
+        });
+
+        return promise;
+    }
+
+    function deleteRecurrence(id) {
+        if (promise) promise.abort();
+
+        var canceller = $q.defer();
+        var request = $http({
+            url: "/api/recurrence",
+            method: "DELETE",
+            params: {id: id},
+            timeout: canceller.promise
+        });
+
+        promise = request.then(
+            function (response) {
+                if (response.data.error) return response.data;
+                else return response
+            },
+            function (response) {
+                if (response.status && response.status >= 0) {
+                    $rootScope.$broadcast('serverError', response);
+                    return ($q.reject("error"));
+                }
+            });
+        promise.abort = function () {
+            canceller.resolve();
+        };
+        promise.finally(function () {
+            //console.info("Cleaning up object references.");
+            promise.abort = angular.noop;
+            canceller = request = promise = null;
+        });
+        return promise;
+    }
+
+    
+    return {
+        createRecurrence: createRecurrence,
+        getRecurrences: getRecurrences,
+        deleteRecurrence: deleteRecurrence,
+        isLoaded: function () {
+            return isLoaded;
+        }
+    }
+});
+

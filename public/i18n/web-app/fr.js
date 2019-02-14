@@ -1,4 +1,10 @@
 var fr = {
+    main : {
+        yes : "Oui",
+        no : "Non",
+        recurrences: "Récurrences",
+        events: "Evenements",
+    },
     layout: {
         logout:"Déconnexion",
         details: "Compte",
@@ -25,11 +31,14 @@ var fr = {
         remove_button: "Supprimer",
         search: "Rechercher",
         filter: "Filtre",
+        filters: "Filtres",
+        resetFilters: "Réinitialiser les filtres",
         enable: 'Activer',
         disable: "Désactiver",
         plan: "Planifier activation",
         activateWifiAll:"Activer pour toutes les classes",
-        disableWifiAll:"Désactiver pour toutes les classes"
+        disableWifiAll:"Désactiver pour toutes les classes",
+        createRecurrence: "Creer un évènement récurent"
     },
     modals: {
         confirm: "Demande de confirmation",
@@ -38,6 +47,7 @@ var fr = {
         removeUser: "Voulez vous supprimer cet utilisateur?",
         removeClassroom: "Voulez vous supprimer cette salle de classe?",
         removeSchedule:"Voulez vous supprimer cette activation du Wi-Fi?",
+        removeRecurrence:"Voulez vous supprimer cette récurrence (et toutes les activations du Wi-Fi relatives)?",
         disableWifiForClassroom: "Désactiver le Wi-Fi pour cette salle de classe?",
         disableWifiForAllClassrooms: "Désactiver le Wi-Fi pour toutes les classes?",
         wifiDeactivation: "Voulez-vous désactiver le Wi-Fi?"
@@ -57,6 +67,7 @@ var fr = {
         duringMultipleLesson : "Durée d'activation entre un ou plusieurs cours",
         lessonNumberValue : "Nombre de cours",
         durationValue: "Durée d'activation (en minutes)",
+        timeActivation: "Heure d'activation",
         untilValue: "Date de désactivation",
         isConnected: "L'équipement {{hostName}} est connecté.",
         isNotConnected: "L'équipement {{hostName}} n'est pas connecté.",
@@ -83,6 +94,7 @@ var fr = {
         untilDate: "Le ",
         school : "Ecole",
         classroom : "Salle de classe",
+        allClassrooms: "Toutes les classes",
         startDate : "Date de début",
         endDate : "Date de fin",
         status: "Status",
@@ -91,7 +103,12 @@ var fr = {
         finished : "Terminé",
         inProgress : "En cours",
         notStarted : "Non commencé",
-        disableWifiForClassroom: "Désactiver le Wi-Fi pour la salle "
+        disableWifiForClassroom: "Désactiver le Wi-Fi pour la salle ",
+        isRecurrent : "Est récurrent",
+        showRecurrentEvents : "Voir les évenements récurrents"
+    },
+    recurrence: {
+        dayOfTheWeek: "Jour de la semaine",
     },
     settings: {
         classroom: {
@@ -158,7 +175,15 @@ var fr = {
             expireAt: "Date d'expiration"
         }
     },
-
+    days: {
+        MO: "Lundi",
+        TU: "Mardi",
+        WE: "Mercredi",
+        TH: "Jeudi",
+        FR: "Vendredi",
+        SA: "Samedi",
+        SU: "Dimanche"
+    }
 };
 
 // Login page

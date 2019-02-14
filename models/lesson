@@ -17,6 +17,7 @@ function LessonSeralizer(row) {
     this.lesson.ClassroomId = row.ClassroomId;
     this.lesson.UserId = row.UserId;
     this.lesson.SchoolId = row.SchoolId;
+    this.lesson.RecurrenceId = row.RecurrenceId;
     if (row.hasOwnProperty("startDone")){
         this.lesson.startDone = row.startDone;
     } else {
@@ -50,6 +51,7 @@ function Lesson() {
     this.classroomName = "";
     this.UserId = "";
     this.username = "";
+    this.RecurrenceId = "";
     this.SchoolId = "";
     this.schoolName = "";
     this.endDateTs = "";
@@ -131,6 +133,7 @@ createLesson = function (lessonFromDB, callback) {
         lesson.ClassroomId = lessonFromDB.ClassroomId;
         lesson.UserId = lessonFromDB.UserId;
         lesson.SchoolId = lessonFromDB.SchoolId;
+        lesson.RecurrenceId = lessonFromDB.RecurrenceId;
         getClassroomName(lesson.ClassroomId, function(classroomName){
             lesson.classroomName = classroomName;
             getUserUsername(lesson.UserId, function(username){

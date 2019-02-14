@@ -53,6 +53,7 @@ var Sqlite = function(){
                 "endDate DATETIME," +
                 "ClassroomId INTEGER," +
                 "UserId INTEGER," +
+                "RecurrenceId INTEGER," +
                 "SchoolId INTEGER, " +
                 "startDone BOOL NOT NULL DEFAULT FALSE," +
                 "endDone BOOL NOT NULL DEFAULT FALSE)");
@@ -65,6 +66,16 @@ var Sqlite = function(){
                 'sshAdmin VARCHAR(32), ' +
                 'sshPassword VARCHAR(64), ' +
                 'lessonDuration INTEGER DEFAULT 60)');
+            db.run('CREATE TABLE Recurrence (id integer primary key,' +
+                "UserId INTEGER," +
+                'SchoolId INTEGER, ' +
+                'ClassroomId INTEGER, ' +     
+                'startDate DATETIME, ' +
+                'endDate DATETIME, ' +     
+                'day VARCHAR(2), ' +     
+                'hour INTEGER, ' +        
+                'minute INTEGER, ' +        
+                'duration INTEGER)');
             db.run("INSERT INTO User VALUES (1, '', '', '', 'admin', '"+createHash("aerohive")+"', 'true', '', 1, 1, 1)");
             db.run("INSERT INTO UserGroup VALUES (1, 'Administrator')");
             db.run("INSERT INTO UserGroup VALUES (2, 'Operator')");
@@ -73,7 +84,8 @@ var Sqlite = function(){
             db.run("INSERT INTO School VALUES (1, 'None', '', '', '', 60)");
             db.run("INSERT INTO UILanguage VALUES (1, 'English', 'en')");
             db.run("INSERT INTO UILanguage VALUES (2, 'Francais', 'fr')");
-        }
+        }       
+
     });
 };
 

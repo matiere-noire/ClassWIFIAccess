@@ -1,0 +1,77 @@
+var db = require(appRoot + "/app").db;
+var rrule = require('rrule');
+
+function RecurrenceSerializer(row){
+    this.recurrence = {};
+    this.recurrence.UserId = row.UserId;
+    this.recurrence.SchoolId = row.SchoolId;
+    this.recurrence.ClassroomId = row.ClassroomId;
+    this.recurrence.startDate = row.startDate;
+    this.recurrence.endDate = row.endDate;
+    this.recurrence.day = row.day;
+    this.recurrence.hour = row.hour;
+    this.recurrence.minute = row.minute;
+    this.recurrence.duration = row.duration;
+}
+
+RecurrenceSerializer.prototype.updateDB = function(recurrenceId, callback){
+    db.updateDB("Recurrence", recurrenceId, this.recurrence, function(err){
+        callback(err);
+    });
+};
+
+RecurrenceSerializer.prototype.insertDB = function(callback){
+    db.insertDB("Recurrence", this.recurrence, function(err, id){
+        callback(err, id);
+    });
+};
+
+function Recurrence(){
+    this.id="";
+    this.userId="";
+    this.schoolId="";
+    this.classroomId="";
+    this.startDate = "";
+    this.endDate = "";
+    this.day = "";
+    this.hour = "";
+    this.minute = "";
+    this.duration=0;
+}
+
+findOne = function(filters, options, callback){
+    db.findOne("Recurrence", filters, options, function(err, recurrence){
+        callback(err, recurrence);
+    });
+};
+
+findById = function(rowId, filters, options, callback){
+    db.findById("Recurrence", rowId, filters, options, function(err, recurrence){
+        callback(err, recurrence);
+    });
+};
+
+findAll = function (filters, options, callback) {
+    db.findAll("Recurrence", filters, options, function (err, recurrences) {
+        callback(err, recurrences);
+    })
+};
+getAll = function(options, callback){
+    this.findAll(null, options, function(err, res){
+        callback(err, res);
+    })
+};
+
+deleteByID = function(recurrenceId, callback){
+    db.deleteById("Recurrence", recurrenceId, function(err, ret){
+        callback(ret, err);
+    })
+};
+
+module.exports = Recurrence;
+module.exports.findOne = findOne;
+module.exports.findById = findById;
+module.exports.getAll = getAll;
+module.exports.findAll = findAll;
+module.exports.RecurrenceSerializer = RecurrenceSerializer;
+module.exports.deleteById = deleteByID;

@@ -1,4 +1,5 @@
 var express = require('express');
+var rrule = require('rrule');
 var router = express.Router();
 var User = require(appRoot + "/models/user");
 var Group = require(appRoot + "/models/group");
@@ -10,6 +11,7 @@ var apiReq = require(appRoot + '/bin/ah_api/req_device');
 var Api = require(appRoot + "/models/api");
 var Error = require(appRoot + '/routes/error');
 var Device = require(appRoot + "/models/device");
+var Recurrence = require(appRoot + "/models/recurrence");
 var Control = require(appRoot + '/bin/device_control');
 var logger = require(appRoot + "/app").logger;
 
@@ -389,6 +391,80 @@ router.post("/schedule", function (req, res) {
     } else res.status(403).send('Unknown session');
 });
 
+//===================================================================//
+//============================ recurence ===========================//
+//===================================================================//
+
+router.post('/recurrence', function (req, res) {
+    if(req.body.hasOwnProperty('ClassroomId')){
+
+        var time = new Date(req.body.time);        
+        var recurrence = new Recurrence();
+        recurrence.UserId = req.user.id;
+        recurrence.ClassroomId = req.body.ClassroomId;
+        recurrence.SchoolId = req.body.SchoolId;
+        recurrence.startDate = req.body.startDate;
+        recurrence.endDate = req.body.endDate;
+        recurrence.hour = time.getHours();
+        recurrence.minute = time.getMinutes();
+        recurrence.day = req.body.day;
+        recurrence.duration = req.body.duration;        
+
+        var recurrenceToDB = new Recurrence.RecurrenceSerializer(recurrence);
+        recurrenceToDB.insertDB(function (err, RecurrenceId) {
+            if (err) res.json({error: err});
+            else{
+                var rule = new rrule.RRule({
+                    freq: rrule.RRule.WEEKLY,
+                    byweekday: [rrule.RRule[recurrence.day]],
+                    dtstart: new Date(recurrence.startDate),
+                    until: new Date(recurrence.endDate),
+                    byhour: [recurrence.hour],
+                    byminute: [recurrence.minute]
+                });
+                var occurences = rule.all();
+                //Create a lesson for each occurence
+                for(var i=0; i<occurences.length; i++){
+
+                    //Get exact date for occurence
+                    var startDate = new Date(occurences[i]);
+                    startDate.setHours(recurrence.hour, recurrence.minute);
+
+                    var lesson = new Lesson();
+                    lesson.UserId = recurrence.UserId;
+                    lesson.ClassroomId = recurrence.ClassroomId;
+                    lesson.SchoolId = recurrence.SchoolId;
+                    lesson.RecurrenceId = RecurrenceId;
+                    lesson.startDateTs = startDate.getTime();
+                    lesson.endDateTs = new Date(lesson.startDateTs + (recurrence.duration * 60 * 1000)).getTime();
+                    var lessonToDb = new Lesson.LessonSeralizer(lesson);
+                    lessonToDb.insertDB(function (err, LessonId) {});                    
+                }
+                return res.json({});
+            }
+        });
+    } else res.json({error: "classroomId missing"});  
+});
+
+router.get('/recurrence', function (req, res) {
+    if(req.query.hasOwnProperty('SchoolId')){
+        Recurrence.findAll({SchoolId: req.query.SchoolId}, null, function(err, recurrences){
+            if (err) res.json({error: err});
+            else res.json({recurrences: recurrences});
+        });  
+    } else res.json({error: "SchoolId is missing"});  
+});
+
+router.delete('/recurrence', function (req, res) {
+    if (req.session.hasOwnProperty('passport')) {
+        if (req.query.hasOwnProperty("id")) {
+            Recurrence.deleteById(req.query.id, function (err) {
+                if (err) res.json({error: err});
+                else res.json({});
+            })
+        }
+    } else res.status(403).send('Unknown session');
+});
 
 //===============================================================//
 //============================ settings USERS===========================//

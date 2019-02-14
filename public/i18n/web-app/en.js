@@ -12,6 +12,12 @@
 // Config page
 //API
 var en = {
+    main : {
+        yes : "Yes",
+        no : "No",
+        recurrences: "Recurrence",
+        events: "Events",
+    },
     layout: {
         details: "account",
         logout: "logout",
@@ -38,11 +44,14 @@ var en = {
         activateLater: "Plan Wi-Fi activation",
         search: "Search",
         filter: "Filter",
+        filters: "Filters",
+        resetFilters: "Reset filters",
         enable: 'Enable',
         disable: "Disable",
         plan: "Plan activation",
         activateWifiAll:"Activate for all classrooms",
-        disableWifiAll:"Deactivate for all classrooms"
+        disableWifiAll:"Deactivate for all classrooms",
+        createRecurrence: "Create an recurent event"
     },
     modals: {
         confirm: "Confirmation request",
@@ -51,6 +60,7 @@ var en = {
         removeUser:  "Do you want to remove this user?",
         removeClassroom: "Do you want to remove this classroom?",
         removeSchedule:"Do you want to remove this Wi-Fi activation?",
+        removeRecurrence:"Do you want to remove this recurrence (and all the related wi-fi activation)?",
         disableWifiForClassroom: "Deactivate Wi-Fi for this classroom ",
         disableWifiForAllClassrooms: "Deactivate Wi-Fi for all classrooms ",
         wifiDeactivation: "Do you want to deactivate Wi-Fi?"
@@ -71,6 +81,7 @@ var en = {
         duringMultipleLesson : "During one or multiple Lesson",
         lessonNumberValue : "Number of lessons",
         durationValue: "Active time (in minutes)",
+        timeActivation: "Activation time",
         untilValue: "Deactivation date",
         isConnected: "Device {{hostName}} is connected.",
         isNotConnected: "Device {{hostName}} is not connected.",
@@ -97,6 +108,7 @@ var en = {
         untilDate: "Until ",
         school : "School",
         classroom : "Classroom",
+        allClassrooms: "All classrooms",
         startDate : "Start date",
         endDate : "End date",
         status: "Status",
@@ -105,7 +117,12 @@ var en = {
         finished : "Finished",
         inProgress : "In progress",
         notStarted : "Not started",
-        disableWifiForClassroom: "Deactivate Wi-Fi for room "
+        disableWifiForClassroom: "Deactivate Wi-Fi for room ",
+        isRecurrent : "Is recurrent",
+        showRecurrentEvents : "Show recurrent events"
+    },
+    recurrence: {
+        dayOfTheWeek: "Day of the week",
     },
     settings: {
         classroom: {
@@ -171,8 +188,16 @@ var en = {
             action: "Action",
             expireAt: "expire at"
         }
+    },
+    days: {
+        MO: "Monday",
+        TU: "Tuesday",
+        WE: "Wednesday",
+        TH: "Thursday",
+        FR: "Friday",
+        SA: "Saturday",
+        SU: "Sunday"
     }
-
 };
 //AP
 /*

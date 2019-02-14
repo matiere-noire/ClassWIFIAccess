@@ -20,7 +20,6 @@ var cwa = angular.module("cwa", [
     'scDateTime',
     'pascalprecht.translate'
 ]);
-
 cwa
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
@@ -73,6 +72,10 @@ cwa
         switchTo: 'Switch to',
         clock: 'Clock',
         calendar: 'Calendrier'
+    }).config(function($mdDateLocaleProvider) {        
+        $mdDateLocaleProvider.formatDate = function(date) {            
+            return date ? moment(date).format('DD/MM/YY') : '';
+        };
     });
 
 
@@ -106,7 +109,6 @@ cwa.controller("HeaderCtrl", function ($scope, $rootScope, $location, $mdDialog,
     $rootScope.redirectUrl = angular.element(document.getElementsByName('redirectUrl')[0]).val();
 
     $scope.myAccount = function(){
-        console.log("test");
         $mdDialog.show({
             controller: 'DialogMyAccountController',
             templateUrl: 'modals/modalMyAccountContent.html',
