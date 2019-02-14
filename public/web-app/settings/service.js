@@ -503,14 +503,14 @@ angular.module('Settings').factory("settingsApisService", function ($http, $q, $
         return promise;
     }
 
-    function assignApi(id, schoolId) {
+    function assignApi(api) {
         if (promise) promise.abort();
 
         var canceller = $q.defer();
         var request = $http({
             url: "/api/settings/api",
             method: "PUT",
-            params: {id: id, schoolId: schoolId},
+            params: {api: JSON.stringify(api)},
             timeout: canceller.promise
         });
 

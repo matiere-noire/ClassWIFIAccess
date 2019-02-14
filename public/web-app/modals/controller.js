@@ -81,14 +81,13 @@ angular.module('Modals').controller('DialogConfirmController', function ($scope,
     }
 });
 angular.module("Modals").controller("DialogApiController", function ($scope, $rootScope, $mdDialog, settingsApisService, items) {
-    $scope.apiId = items.apiId;
+    $scope.api = Object.assign({}, items.api)
     $scope.schools = items.schools;
-    $scope.schoolId = items.schoolId;
     $scope.isWorking = false;
 
     $scope.save = function () {
         $scope.isWorking = true;
-        var updateApi = settingsApisService.assignApi($scope.apiId, $scope.schoolId);
+        var updateApi = settingsApisService.assignApi($scope.api);
         updateApi.then(function (promise) {
             $scope.isWorking = false;
             if (promise && promise.error) $rootScope.$broadcast("apiWarning", promise.error);

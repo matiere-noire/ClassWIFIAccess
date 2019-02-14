@@ -257,13 +257,14 @@ angular.module('Settings').controller("SettingsCtrl", function ($scope, $rootSco
             templateUrl: 'modals/modalApiContent.html',
             locals: {
                 items: {
-                    apiId: api.id,
-                    schoolId: api.SchoolId,
+                    api: api,
                     schools: $scope.schools
                 }
             }
         }).then(function () {
             getApis();
+        }, function(){
+            
         });
     };
 

@@ -688,13 +688,17 @@ router.delete('/settings/api', function (req, res) {
 //===   Called when a API configuration is assigned to a School ===//
 router.put("/settings/api", function (req, res, next) {
     if (req.session.hasOwnProperty('passport')) {
-        var apiIdToEdit = req.query.id;
+        var api = JSON.parse(req.query.api);
+        var apiIdToEdit = api.id;
         Api.findById(apiIdToEdit, null, null, function (err, apiFromDB) {
             if (err) res.json({error: err});
             else {
                 var apiSerializer = new Api.ApiSerializer(apiFromDB);
                 if (apiSerializer.api.SchoolId == 1) apiSerializer.api.SchoolId = "";
-                apiSerializer.api.SchoolId = req.query.schoolId;
+                apiSerializer.api.SchoolId = api.SchoolId;
+                apiSerializer.api.vhmId = api.vhmId;
+                apiSerializer.api.vpcUrl = api.vpcUrl;
+                apiSerializer.api.accessToken = api.accessToken;
                 // update the user
                 apiSerializer.updateDB(apiIdToEdit, function (err) {
                     // If error

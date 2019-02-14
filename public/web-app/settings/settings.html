@@ -184,7 +184,7 @@
                                 <th md-column style="width: 15%" md-order-by='school'>
                                     {{"settings.api.school" | translate}}
                                 </th>
-                                <th md-column style="width: 15%" md-order-by='ownerId'>
+                                <th md-column style="width: 5%" md-order-by='ownerId'>
                                     ownerId
                                 </th>
                                 <th md-column style="width: 15%" md-order-by='vhmId'>
@@ -193,10 +193,10 @@
                                 <th md-column style="width: 15%" md-order-by='vpcURL'>
                                     vpcURL
                                 </th>
-                                <th md-column style="width: 15%" md-order-by='accessToken'>
+                                <th md-column style="width: 20%" md-order-by='accessToken'>
                                     accessToken
                                 </th>
-                                <th md-column style="width: 30%" md-order-by='expireAt'>
+                                <th md-column style="width: 20%" md-order-by='expireAt'>
                                     {{"settings.api.expireAt" | translate}}
                                 </th>
                                 <th md-column style="width: 10%">
@@ -208,7 +208,7 @@
                             <tr md-row
                                 ng-repeat="api in apis | orderBy: apiTable.order | limitTo: apiItemsByPage: (apiCurrentPage - 1) * apiItemsByPage">
                                 <td md-cell>
-                                    <div><md-button class="md-primary tm-action-button" ng-click="editApi(api)">{{api.schoolName | schoolDisplay}}</md-button> </div>
+                                    <div>{{api.schoolName | schoolDisplay}}</div>
                                 </td>
                                 <td md-cell>
                                     <div>{{api.ownerId}}</div>
@@ -226,8 +226,11 @@
                                     <div>{{api.expireAt}}</div>
                                 </td>
                                 <td md-cell>
+                                    <md-button class="md-primary tm-action-button" ng-click="editApi(api)">
+                                        <md-icon class="material-icons">edit</md-icon>
+                                    </md-button>
                                     <md-button class="md-warn tm-action-button" ng-click="deleteApi(api.id)">
-                                        <md-icon class="material-icons md-18">delete</md-icon>
+                                        <md-icon class="material-icons">delete</md-icon>
                                     </md-button>
                                 </td>
                             </tr>
