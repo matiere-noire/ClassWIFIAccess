@@ -40,7 +40,7 @@ var fr = {
         disableWifiAll:"Désactiver pour toutes les classes",
         createRecurrence: "Creer un évènement récurent"
     },
-    modals: {
+    modal: {
         confirm: "Demande de confirmation",
         removeApi: "Voulez vous supprimer l'accès à cet API?",
         removeSchool: "Voulez vous supprimer cette école?",
@@ -50,7 +50,11 @@ var fr = {
         removeRecurrence:"Voulez vous supprimer cette récurrence (et toutes les activations du Wi-Fi relatives)?",
         disableWifiForClassroom: "Désactiver le Wi-Fi pour cette salle de classe?",
         disableWifiForAllClassrooms: "Désactiver le Wi-Fi pour toutes les classes?",
-        wifiDeactivation: "Voulez-vous désactiver le Wi-Fi?"
+        wifiDeactivation: "Voulez-vous désactiver le Wi-Fi?",
+        error: {
+            message: "Message",
+            code: "Code"
+        }
     },
     classroom: {
         notConfigured: "Salle de classe sans Point d'Accès",
