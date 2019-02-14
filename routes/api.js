@@ -395,9 +395,8 @@ router.post("/schedule", function (req, res) {
 //============================ recurence ===========================//
 //===================================================================//
 
-router.post('/recurrence', function (req, res) {
-    if(req.body.hasOwnProperty('ClassroomId')){
-
+router.post('/recurrence', function (req, res) {    
+    if(req.body.hasOwnProperty('passport')){
         var time = new Date(req.body.time);        
         var recurrence = new Recurrence();
         recurrence.UserId = req.user.id;
@@ -443,16 +442,18 @@ router.post('/recurrence', function (req, res) {
                 return res.json({});
             }
         });
-    } else res.json({error: "classroomId missing"});  
+    } else res.status(403).send('Unknown session');
 });
 
 router.get('/recurrence', function (req, res) {
-    if(req.query.hasOwnProperty('SchoolId')){
-        Recurrence.findAll({SchoolId: req.query.SchoolId}, null, function(err, recurrences){
-            if (err) res.json({error: err});
-            else res.json({recurrences: recurrences});
-        });  
-    } else res.json({error: "SchoolId is missing"});  
+    if (req.session.hasOwnProperty('passport')) {
+        if(req.query.hasOwnProperty('SchoolId')){
+            Recurrence.findAll({SchoolId: req.query.SchoolId}, null, function(err, recurrences){
+                if (err) res.json({error: err});
+                else res.json({recurrences: recurrences});
+            });  
+        } else res.json({error: "SchoolId is missing"});  
+    } else res.status(403).send('Unknown session');
 });
 
 router.delete('/recurrence', function (req, res) {
