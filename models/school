@@ -6,6 +6,7 @@ function SchoolSerializer(row){
     this.school.accessMethod = row.accessMethod;
     this.school.sshAdmin = row.sshAdmin;
     this.school.sshPassword = row.sshPassword;
+    this.school.email = row.email;
     this.school.lessonDuration = row.lessonDuration;
 }
 
@@ -28,6 +29,7 @@ function School(){
     this.accessMethod="";
     this.sshAdmin="";
     this.sshPassword="";
+    this.email="";
     this.lessonDuration=60;
 }
 

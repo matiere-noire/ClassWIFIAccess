@@ -137,8 +137,11 @@
                                 <th md-column style="width: 30%" md-order-by='schoolName'>
                                     {{"settings.school.schoolName" | translate}}
                                 </th>
-                                <th md-column style="width: 40%" md-order-by='access_method'>
+                                <th md-column style="width: 20%" md-order-by='access_method'>
                                     {{"settings.school.access_method" | translate}}
+                                </th>
+                                <th md-column style="width: 20%" md-order-by='email'>
+                                    {{"settings.school.email" | translate}}
                                 </th>
                                 <th md-column style="width: 20%" md-order-by='access_method'>
                                     {{"settings.school.lessonDuration" | translate}}
@@ -156,6 +159,9 @@
                                 </td>
                                 <td md-cell>
                                     <div>{{school.accessMethod}}</div>
+                                </td>
+                                <td md-cell>
+                                    <div>{{school.email}}</div>
                                 </td>
                                 <td md-cell>
                                     <div>{{school.lessonDuration}}</div>

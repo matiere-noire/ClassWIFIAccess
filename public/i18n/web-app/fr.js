@@ -165,7 +165,8 @@ var fr = {
             password_placeholder:"Mot de passe non modifié",
             delete_class_title:"Voulez vous supprimer cette classe?",
             delete_school_title:"Voulez vous supprimer cette école?",
-            lessonDuration:"Durée d'un cours (en minute)"
+            lessonDuration:"Durée d'un cours (en minute)",
+            email:"Email"
         },
         api: {
             title:"Configuration de l'API",

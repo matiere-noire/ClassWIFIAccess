@@ -1,0 +1,3 @@
+module.exports.email.service = "gmail";
+module.exports.email.user = "XXXX@XXXX.XX";
+module.exports.email.pass = "XXXXXXXXX";

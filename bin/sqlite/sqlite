@@ -65,6 +65,7 @@ var Sqlite = function(){
                 'accessMethod VARCHAR(3), ' +
                 'sshAdmin VARCHAR(32), ' +
                 'sshPassword VARCHAR(64), ' +
+                'email VARCHAR(126), ' +
                 'lessonDuration INTEGER DEFAULT 60)');
             db.run('CREATE TABLE Recurrence (id integer primary key,' +
                 "UserId INTEGER," +
@@ -85,7 +86,6 @@ var Sqlite = function(){
             db.run("INSERT INTO UILanguage VALUES (1, 'English', 'en')");
             db.run("INSERT INTO UILanguage VALUES (2, 'Francais', 'fr')");
         }       
-
     });
 };
 

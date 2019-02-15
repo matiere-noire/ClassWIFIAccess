@@ -4,6 +4,7 @@ var School = require(appRoot + "/models/school");
 var Device = require(appRoot + "/models/device");
 var Lesson = require(appRoot + "/models/lesson");
 var logger = require(appRoot + "/app").logger;
+var email = require(appRoot + '/bin/email/email');
 
 
 function lessonDisableDone(LessonId, callback) {
@@ -56,6 +57,7 @@ function disableWiFi(DeviceId, SchoolId, LessonId, callback) {
                                         ssh.execute(device.ip, ['disableWiFi'], school.sshAdmin, school.sshPassword, function (err) {
                                             if (err) callback(err);
                                             else lessonDisableDone(LessonId, function (err) {
+                                                email.sendDisableLessonEmail(school.email, getClassroomName(LessonId));
                                                 callback(err);
                                             });
                                         });
@@ -69,6 +71,7 @@ function disableWiFi(DeviceId, SchoolId, LessonId, callback) {
                     })
                 } else {
                     lessonDisableDone(LessonId, function (err) {
+                        email.sendDisableLessonEmail(school.email, getClassroomName(LessonId));
                         callback(err);
                     });
                 }
@@ -91,6 +94,7 @@ function enableWiFi(DeviceId, SchoolId, LessonId, callback) {
                             ssh.execute(device.ip, ['enableWiFi'], school.sshAdmin, school.sshPassword, function (err) {
                                 if (err) callback(err);
                                 else lessonEnableDone(LessonId, function (err) {
+                                    email.sendEnableLessonEmail(school.email, getClassroomName(LessonId));
                                     callback(err);
                                 });
                             });

@@ -179,7 +179,8 @@ var en = {
             password_placeholder:"Password not changed",
             delete_class_title:"Do you want to remove this class?",
             delete_school_title:"Do you want to remove this school?",
-            lessonDuration:"Lesson duration (in minutes)"
+            lessonDuration:"Lesson duration (in minutes)",
+            email:"Email"
         },
         api: {
             title:"API configuration",
