@@ -217,6 +217,28 @@ findActiveByDevice = function (DeviceId, SchoolId, callback) {
     }
 };
 
+
+
+findActiveBySchool = function (SchoolId, callback) {
+    var currentDate = new Date().getTime();
+    db.customJoin(null, "Classroom", "Lesson",
+        "Lesson.ClassroomId", "Classroom.id",
+        " Lesson.SchoolId = " + SchoolId +
+        " AND Lesson.startDate < " + currentDate +
+        " AND " +
+        " (Lesson.endDate > " + currentDate +
+        " OR Lesson.endDate = 0)",
+        function (err, ret) {
+            if (err) {
+                callback(err);
+            } else if (ret) {
+                callback(null, ret);
+            } else {
+                callback(null, []);
+            }
+        });
+};
+
 findPassedButNotDisabled = function(SchoolId, callback) {
     var currentDate = new Date().getTime();
     db.customJoin("Lesson.*, Classroom.DeviceId",
@@ -293,6 +315,7 @@ module.exports = Lesson;
 module.exports.findAll = findAll;
 module.exports.findOne = findOne;
 module.exports.findById = findById;
+module.exports.findActiveBySchool = findActiveBySchool;
 module.exports.findPassedButNotDisabled = findPassedButNotDisabled;
 module.exports.findActiveButNotEnabled = findActiveButNotEnabled;
 module.exports.findActive = findActive;
