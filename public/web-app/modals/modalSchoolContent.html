@@ -15,6 +15,14 @@
             <input id="schoolName" ng-model="school.schoolName" ng-required=""/>
         </md-input-container>
         <md-input-container>
+            <label for="email"><span translate="settings.school.email"></span></label>
+            <input type="email" id="email" ng-model="school.email"/>
+        </md-input-container>
+        <md-input-container>
+            <label for="lessonDuration"><span translate="settings.school.lessonDuration"></span></label>
+            <input type="number" min="0" id="lessonDuration" ng-model="school.lessonDuration"/>
+        </md-input-container>
+        <md-input-container>
             <label for="accessMethod"><span translate="settings.school.access_method"></span><span
                     style="color: red">*</span></label>
             <md-select id="accessMethod" ng-model="school.accessMethod" ng-required>
@@ -41,12 +49,8 @@
                 <label for="sshPasswordConfirm"><span translate="settings.school.ssh_password_confirm"></span></label>
                 <input type="password" id="sshPasswordConfirm" ng-model="school.sshPasswordConfirm"
                        ng-required="school.ssh_password == 'ssh'">
-            </md-input-container>
-            <md-input-container>
-                <label for="lessonDuration"><span translate="settings.school.lessonDuration"></span></label>
-                <input type="number" min="0" id="lessonDuration" ng-model="school.lessonDuration"/>
-            </md-input-container>
-        </div>
+            </md-input-container>            
+        </div>       
     </md-content>
     <md-dialog-actions layout="row">
         <md-button translate="button.cancel_button" aria-label="cancel" ng-click="cancel()"></md-button>

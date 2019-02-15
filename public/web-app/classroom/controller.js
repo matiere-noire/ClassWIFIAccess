@@ -1,4 +1,4 @@
-angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootScope, $location, $mdDialog, classroomService, scheduleService) {
+angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootScope, $location, $mdDialog, classroomService, scheduleService, $interval) {
     var requestForClassrooms = null;
     $scope.classrooms = [];
     $scope.classroomsFiltered = [];
@@ -127,4 +127,12 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
             }
         });
     }
+
+    var refreshClassrooms = $interval(function(){
+        $scope.getClassrooms();
+    }.bind(this), 60000);    
+  
+    $scope.$on('$destroy', function () {
+        $interval.cancel(refreshClassrooms);
+    });
 });
