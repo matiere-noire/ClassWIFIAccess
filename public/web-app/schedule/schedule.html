@@ -164,7 +164,7 @@
                             <div>{{ "days." + rec.day | translate }}</div>
                         </td>
                         <td md-cell>
-                            <div>{{rec.hour + ':' + rec.minute}}</div>
+                            <div>{{rec.hour + ':' + (rec.minute < 10 ? '0' : '') + rec.minute }}</div>
                         </td>
                         <td md-cell>
                             <div>{{rec.duration}}</div>
