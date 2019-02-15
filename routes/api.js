@@ -396,7 +396,7 @@ router.post("/schedule", function (req, res) {
 //===================================================================//
 
 router.post('/recurrence', function (req, res) {    
-    if(req.body.hasOwnProperty('passport')){
+    if(req.session.hasOwnProperty('passport')){
         var time = new Date(req.body.time);        
         var recurrence = new Recurrence();
         recurrence.UserId = req.user.id;
