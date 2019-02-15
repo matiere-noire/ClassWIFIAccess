@@ -3,10 +3,10 @@ var config = require(appRoot + '/bin/email/config');
 var logger = require(appRoot + "/app").logger;
 
 var transporter = nodemailer.createTransport({
-  service: config.email.service,
+  service: config.service,
   auth: {
-    user: config.email.user,
-    pass: config.email.pass
+    user: config.user,
+    pass: config.pass
   }
 });
 

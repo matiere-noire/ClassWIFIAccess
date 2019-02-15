@@ -1,4 +1,5 @@
 bin/ah_api/config
+bin/email/config
 .idea/*
 node_modules/
 local.db
