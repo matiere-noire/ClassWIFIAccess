@@ -6,7 +6,7 @@ local.db
 *.log
 bower_components/
 .DS_Store
-
+ package-lock.json
 \.vscode/
 
 yarn\.lock
