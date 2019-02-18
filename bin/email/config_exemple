@@ -1,3 +1,4 @@
-module.exports.service = "gmail";
+module.exports.host = "smtp.example.com";
+module.exports.port = 587;
 module.exports.user = "XXXX@XXXX.XX";
 module.exports.pass = "XXXXXXXXX";

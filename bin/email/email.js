@@ -3,7 +3,9 @@ var config = require(appRoot + '/bin/email/config');
 var logger = require(appRoot + "/app").logger;
 
 var transporter = nodemailer.createTransport({
-  service: config.service,
+  host: config.host,
+  port: config.port,
+  secure: false,
   auth: {
     user: config.user,
     pass: config.pass
