@@ -7,7 +7,7 @@ var apiAuth = require(appRoot + "/bin/ah_api/auth");
 module.exports.apiRequest = function (api, path, callback) {
 
     //Check if token is not expired
-    if( new Date(apiFromDB.expireAt).getTime() > new Date().getTime() ){
+    if( new Date(apiFromDB.expireAt).getTime() < new Date().getTime() ){
         apiAuth.refreshToken( 
             api.refreshToken, 
             Api.getRedirectUrl(), 
