@@ -19,7 +19,7 @@ function sendEmail(to, subject, message) {
     subject,
     html: message,
   };
-  transport.sendMail(mailOptions, (error) => {
+  transporter.sendMail(mailOptions, (error) => {
       if (error) {
         logger.error("Email could not be sent : " + error);
       }
