@@ -1,5 +1,5 @@
 var https = require('https');
-var apiDB = require(appRoot + '/models/api');
+var Api = require(appRoot + '/models/api');
 var logger = require(appRoot + "/app").logger;
 var apiAuth = require(appRoot + "/bin/ah_api/auth");
 
@@ -10,9 +10,9 @@ module.exports.apiRequest = function (api, path, callback) {
     if( new Date(apiFromDB.expireAt).getTime() <= new Date().getTime() ){
         apiAuth.refreshToken( 
             api.refreshToken, 
-            apiDB.getRedirectUrl(), 
-            apiDB.getSecret(), 
-            apiDB.getClientId(), 
+            Api.getRedirectUrl(), 
+            Api.getSecret(), 
+            Api.getClientId(), 
             function (apiDataString) {
                 if (apiDataString) {
                     var apiDataJSON = JSON.parse(apiDataString);
@@ -53,9 +53,9 @@ function sendApiRequest(api, path, callback){
         path: path,
         method: 'GET',
         headers: {
-            'X-AH-API-CLIENT-SECRET': apiDB.getSecret(),
-            'X-AH-API-CLIENT-ID': apiDB.getClientId(),
-            'X-AH-API-CLIENT-REDIRECT-URI': apiDB.getRedirectUrl(),
+            'X-AH-API-CLIENT-SECRET': Api.getSecret(),
+            'X-AH-API-CLIENT-ID': Api.getClientId(),
+            'X-AH-API-CLIENT-REDIRECT-URI': Api.getRedirectUrl(),
             'Authorization': "Bearer " + api.accessToken
         }
     };
