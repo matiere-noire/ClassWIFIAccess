@@ -129,7 +129,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
     }
 
     var refreshClassrooms = $interval(function(){
-        $scope.getClassrooms();
+        getClassrooms();
     }.bind(this), 60000);    
   
     $scope.$on('$destroy', function () {
