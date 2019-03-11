@@ -1,10 +1,46 @@
 var https = require('https');
 var apiDB = require(appRoot + '/models/api');
 var logger = require(appRoot + "/app").logger;
+var apiAuth = require(appRoot + "/bin/ah_api/auth");
 
 
 module.exports.apiRequest = function (api, path, callback) {
 
+    //Check if token is not expired
+    if( new Date(apiFromDB.expireAt).getTime() <= new Date().getTime() ){
+        apiAuth.refreshToken( 
+            api.refreshToken, 
+            apiDB.getRedirectUrl(), 
+            apiDB.getSecret(), 
+            apiDB.getClientId(), 
+            function (apiDataString) {
+                if (apiDataString) {
+                    var apiDataJSON = JSON.parse(apiDataString);
+                    if (apiDataJSON.hasOwnProperty("data")) {
+                        var apiReg = new Api.ApiSerializer(apiDataJSON.data);
+                        apiReg.id = api.id;
+                        apiReg.SchoolId = api.SchoolId;
+                        apiReg.updateDB(function (err) {
+                            if (err) {
+                                Error.render(err);
+                            } else {
+                                sendApiRequest(apiReg, path, callback);
+                            }
+                        });
+                    } else if (apiDataJSON.hasOwnProperty('error')) {
+                        var apiError = new Api.ApiErrorSerializer(apiDataJSON.error);
+                        Error.render(apiError);
+                    }
+                } else {
+                    Error.render(err);
+                }
+        });
+    }else{
+        sendApiRequest(api, path, callback);
+    }
+};
+
+function sendApiRequest(api, path, callback){
     var result = {};
     result.request = {};
     result.result = {};
@@ -58,9 +94,7 @@ module.exports.apiRequest = function (api, path, callback) {
     });
 
 
-// write data to request body
+    // write data to request body
     req.write('data\n');
     req.end();
-
-
-};
+}
