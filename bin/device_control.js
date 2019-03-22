@@ -170,12 +170,20 @@ function checkLessons() {
         //change only the status of a lesson
         for (var lnum in lessonToChangeStatusToDisabled) {
           var lesson = lessons[lnum]
-          lessonDisableDone(
+          disableWiFi(
+            lesson.DeviceId,
+            lesson.SchoolId,
             lesson.id,
             function(err) {
-              if (err) logger.warn('Could not change status for classroom ' + this.lesson.classroomName + ' ' + err)
+              if (err) logger.warn('CheckLessons for classroom ' + this.lesson.classroomName + ' (2.1): ' + err)
             }.bind({ lesson: lesson })
           )
+          //   lessonDisableDone(
+          //     lesson.id,
+          //     function(err) {
+          //       if (err) logger.warn('Could not change status for classroom ' + this.lesson.classroomName + ' ' + err)
+          //     }.bind({ lesson: lesson })
+          //   )
         }
 
         //activate lessons
