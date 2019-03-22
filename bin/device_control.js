@@ -121,7 +121,64 @@ function checkLessons() {
     else {
       for (var snum in schools) {
         var school = schools[snum]
+        var lessonsPassedButNotDisabled = []
+        var lessonsActive = []
+        var lessonToDisabledFully = []
+        var lessonToChangeStatusToDisabled = []
 
+        Lesson.findActiveBySchool(school.id, function(err, lessons) {
+          lessonsActive = lessons
+        })
+
+        Lesson.findPassedButNotDisabled(
+          school.id,
+          function(err, lessons) {
+            if (err) logger.warn('CheckLessons for school ' + this.school.schoolName + ' (2.0): ' + err)
+            lessonsPassedButNotDisabled = lessons
+
+            //distribute lessonsPassedButNotDisabled between lessonToChangeStatusToDisabled and lessonToDisabledFully
+            for (var lnum in lessonsPassedButNotDisabled) {
+              var lesson = lessons[lnum]
+
+              //search activeLessons with the same DeviceId but different id
+              var sameClassLessons = lessonsActive.filter(l => {
+                return l.ClassroomId == lesson.ClassroomId && l.id != lesson.id
+              })
+              //if sameClassLessons is not empty it means that one or more lessons are active and should not be disable
+              if (sameClassLessons.length > 0) {
+                lessonToChangeStatusToDisabled.push(lesson)
+              } else {
+                lessonToDisabledFully.push(lesson)
+              }
+            }
+
+            //desactivate "fully" (desactivate wifi + change status) a lesson
+            for (var lnum in lessonToDisabledFully) {
+              var lesson = lessons[lnum]
+              disableWiFi(
+                lesson.DeviceId,
+                lesson.SchoolId,
+                lesson.id,
+                function(err) {
+                  if (err) logger.warn('CheckLessons for classroom ' + this.lesson.classroomName + ' (2.1): ' + err)
+                }.bind({ lesson: lesson })
+              )
+            }
+
+            //change only the status of a lesson
+            for (var lnum in lessonToChangeStatusToDisabled) {
+              var lesson = lessons[lnum]
+              lessonDisableDone(
+                lesson.id,
+                function(err) {
+                  if (err) logger.warn('Could not change status for classroom ' + this.lesson.classroomName + ' ' + err)
+                }.bind({ lesson: lesson })
+              )
+            }
+          }.bind({ school: school })
+        )
+
+        //activate lessons
         Lesson.findActiveButNotEnabled(
           school.id,
           function(err, lessons) {
@@ -134,24 +191,6 @@ function checkLessons() {
                 lesson.id,
                 function(err) {
                   if (err) logger.warn('CheckLessons for classroom ' + this.lesson.classroomName + ' (1.1): ' + err)
-                }.bind({ lesson: lesson })
-              )
-            }
-          }.bind({ school: school })
-        )
-
-        Lesson.findPassedButNotDisabled(
-          school.id,
-          function(err, lessons) {
-            if (err) logger.warn('CheckLessons for school ' + this.school.schoolName + ' (2.0): ' + err)
-            for (var lnum in lessons) {
-              var lesson = lessons[lnum]
-              disableWiFi(
-                lesson.DeviceId,
-                this.school.id,
-                lesson.id,
-                function(err) {
-                  if (err) logger.warn('CheckLessons for classroom ' + this.lesson.classroomName + ' (2.1): ' + err)
                 }.bind({ lesson: lesson })
               )
             }
