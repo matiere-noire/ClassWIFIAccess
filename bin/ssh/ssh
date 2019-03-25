@@ -66,7 +66,7 @@ function parseSSID(data) {
     } else if (entryString.indexOf('ssid') != -1) {
       var trimmedEntry = entryString.replace('\n', '').replace('\r', '')
       var tab = trimmedEntry.split(' ssid ')
-      var ssid = count(tab) >= 2 ? tab[1].split(' ')[0] : null;
+      var ssid = tab.length >= 2 ? tab[1].split(' ')[0] : null;
       if (ssid && ssidList.indexOf(ssid) < 0) {
         ssidList.push(ssid)
       }
