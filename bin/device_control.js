@@ -97,7 +97,7 @@ function enableWiFi(DeviceId, SchoolId, LessonId, callback) {
                 if (err) callback(err)
                 else
                   lessonEnableDone(LessonId, function(err) {
-                    //email.sendEnableLessonEmail(school.email, getClassroomName(LessonId));
+                    email.sendEnableLessonEmail(school.email, getClassroomName(LessonId))
                     callback(err)
                   })
               })
