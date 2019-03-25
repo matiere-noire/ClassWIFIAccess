@@ -39,7 +39,6 @@ function connect(host, port, username, password, sshEvent) {
 }
 
 function parseSSID(data) {
-  logger.error('SSH >> raw data : ' + data)
   var entries = data.split('\n')
   var ssid = ''
   var ssidList = []
