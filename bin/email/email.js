@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
 })
 
 function sendEmail(to, subject, message) {
-  if (config) {
+  if (config && config.email) {
     const mailOptions = {
       from: config.email.user,
       to,
@@ -25,6 +25,8 @@ function sendEmail(to, subject, message) {
         logger.error('Email could not be sent : ' + error)
       }
     })
+  } else {
+    logger.info('Email could not be sent because email configuration has not be found ')
   }
 }
 
