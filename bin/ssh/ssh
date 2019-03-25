@@ -39,6 +39,7 @@ function connect(host, port, username, password, sshEvent) {
 }
 
 function parseSSID(data) {
+  logger.error('SSH >> raw data : ' + data)
   var entries = data.split('\n')
   var ssid = ''
   var ssidList = []
@@ -66,8 +67,8 @@ function parseSSID(data) {
     } else if (entryString.indexOf('ssid') != -1) {
       var trimmedEntry = entryString.replace('\n', '').replace('\r', '')
       var tab = trimmedEntry.split(' ssid ')
-      var ssid = tab[1].split(' ')[0]
-      if (ssidList.indexOf(ssid) < 0) {
+      var ssid = count(tab) >= 2 ? tab[1].split(' ')[0] : null;
+      if (ssid && ssidList.indexOf(ssid) < 0) {
         ssidList.push(ssid)
       }
     }
@@ -109,7 +110,7 @@ module.exports.execute = function(deviceIP, commands, login, password, callback)
       stream.write('exit\n')
     })
     .on('data', function(data, stream) {
-      if (data.indexOf('#') == data.length - 1) {
+      if (data.indexOf('#') == data.length - 1 || data.indexOf('ssid') != -1 ) {
         if (0 <= commandData && commandData < commands.length) {
           if (commands[commandData] == 'enableWiFi') {
             logger.info("SSH >> event 'data' > " + commands[commandData])
