@@ -42,7 +42,7 @@ function parseSSID(data) {
   var entries = data.split('\n')
   var ssid = ''
   var ssidList = []    
-  logger.info('SSH >> parseSSID before : ' + parseSSID )
+  logger.info('SSH >> parseSSID before : ' + data )
   for (var entry in entries) {
     var entryString = entries[entry]
     if (entryString.indexOf('ssid') == 0) {
