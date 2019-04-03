@@ -87,7 +87,9 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
             templateUrl: 'modals/modalEnableContent.html',
             locals: {
                 items: {
-                    classrooms: classrooms
+                    classrooms: classrooms.filter(function (c) {
+                        return !c.wifiEnabled;
+                    })
                 }
             }
         }).then(function () {
@@ -106,9 +108,11 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
                 }
             }
         }).then(function () {
-            console.log(classrooms);
             getClassrooms();
-            var disableMultipleSchedule = scheduleService.disableScheduleForMultipleClassrooms($rootScope.schoolId, classrooms);
+            var classroomsToDisable = classrooms.filter(function (c) {
+                return c.wifiEnabled;
+            })
+            var disableMultipleSchedule = scheduleService.disableScheduleForMultipleClassrooms($rootScope.schoolId, classroomsToDisable);
             disableMultipleSchedule.then(function (promise) {
                 if (promise && promise.error) $scope.$broadcast("apiError", promise.error);
             })
