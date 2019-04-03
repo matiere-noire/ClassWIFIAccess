@@ -8,42 +8,45 @@
 
         <section flex="100" ng-show="schoolSelected() == true">
 
-                <md-card style="padding: 0 15px;" >
-                    <h4 style="margin-bottom: 0;">{{"button.filters" | translate}}</h4>
-                    <div layout="row">
-                        <md-input-container style="margin-right: 40px;">
-                                <label>{{"schedule.classroom" | translate}}</label>
-                            <md-select id="filterClassroom" ng-model="filter.ClassroomId" aria-label="filterClassroom">
-                                <md-option ng-value="">{{"schedule.allClassrooms" | translate}}</md-option>
-                                <md-option ng-repeat="classroom in classrooms" ng-value="classroom.id">{{classroom.classroomName}}</md-option>
-                            </md-select>
-                        </md-input-container>  
-                        <md-input-container style="margin-right: 40px;">       
-                            <md-datepicker ng-model="dateFrom" md-placeholder="{{'schedule.startDate' | translate}}"></md-datepicker>
-                        </md-input-container>
-                        
-                        <md-input-container style="margin-right: 40px;">
-                            <md-datepicker ng-model="dateTo" md-placeholder="{{'schedule.endDate' | translate}}"></md-datepicker>
-                        </md-input-container>
+            <md-card style="padding: 0 15px;">
+                <h4 style="margin-bottom: 0;">{{"button.filters" | translate}}</h4>
+                <div layout="row">
+                    <md-input-container style="margin-right: 40px;">
+                        <label>{{"schedule.classroom" | translate}}</label>
+                        <md-select id="filterClassroom" ng-model="filter.ClassroomId" aria-label="filterClassroom">
+                            <md-option ng-value="">{{"schedule.allClassrooms" | translate}}</md-option>
+                            <md-option ng-repeat="classroom in classrooms" ng-value="classroom.id">
+                                {{classroom.classroomName}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container style="margin-right: 40px;">
+                        <md-datepicker ng-model="dateFrom" md-placeholder="{{'schedule.startDate' | translate}}">
+                        </md-datepicker>
+                    </md-input-container>
 
-                        
-                        <md-input-container style="margin-right: 40px;">
-                            <md-checkbox ng-model="showRecurrentEvents" aria-label="showRecurrentEvents">
-                                {{"schedule.showRecurrentEvents" | translate }}
+                    <md-input-container style="margin-right: 40px;">
+                        <md-datepicker ng-model="dateTo" md-placeholder="{{'schedule.endDate' | translate}}">
+                        </md-datepicker>
+                    </md-input-container>
+
+
+                    <md-input-container style="margin-right: 40px;">
+                        <md-checkbox ng-model="showRecurrentEvents" aria-label="showRecurrentEvents">
+                            {{"schedule.showRecurrentEvents" | translate }}
                             </md-datepicker>
-                        </md-input-container>
-                        
-                        <md-input-container style="margin: 0;" ng-click="resetFilters()">   
-                                <md-button class="md-raised">{{"button.resetFilters" | translate}}</md-button>
-                        </md-input-container>
-                    </div>
-                </md-card>
-            
+                    </md-input-container>
+
+                    <md-input-container style="margin: 0;" ng-click="resetFilters()">
+                        <md-button class="md-raised">{{"button.resetFilters" | translate}}</md-button>
+                    </md-input-container>
+                </div>
+            </md-card>
+
             <md-content>
-                <md-button class="md-raised md-primary" translate="button.activateNow"
-                           aria-label="activateNow" ng-click="activation()"></md-button>
-                <md-button class="md-raised md-primary" translate="button.activateLater"
-                           aria-label="activateLater" ng-click="planSchedule()"></md-button>                           
+                <md-button class="md-raised md-primary" translate="button.activateNow" aria-label="activateNow"
+                    ng-click="activation()"></md-button>
+                <md-button class="md-raised md-primary" translate="button.activateLater" aria-label="activateLater"
+                    ng-click="planSchedule()"></md-button>
                 <md-button class="md-raised md-primary" translate="button.createRecurrence"
                     aria-label="createRecurrence" ng-click="createRecurrence()"></md-button>
             </md-content>
@@ -52,130 +55,129 @@
             <md-table-container>
                 <table md-table md-progress="requestForSchedule">
                     <thead md-head md-order="table.order">
-                    <tr md-row>
-                        <th md-column style="width: 15%" md-order-by='classroomName'>
-                            {{"schedule.classroom" | translate}}
-                        </th>
-                        <th md-column style="width: 25%" md-order-by='startDate'>
-                            {{"schedule.startDate" | translate}}
-                        </th>
-                        <th md-column style="width: 25%" md-order-by='endDate'>
-                            {{"schedule.endDate" | translate}}
-                        </th>                       
-                        <th md-column style="width: 5%" md-order-by='status'>
-                            {{"schedule.status" | translate}}
-                        </th>
-                        <th md-column style="width: 10%" md-order-by='teacher'>
-                            {{"schedule.teacher" | translate}}
-                        </th>
-                        <th md-column style="width: 10%" md-order-by='RecurrenceId'>
-                            {{"schedule.isRecurrent" | translate}}
-                        </th>
-                        <th md-column style="width: 10%" md-order-by='action'>
-                            {{"schedule.action" | translate}}
-                        </th>
-                    </tr>
+                        <tr md-row>
+                            <th md-column style="width: 15%" md-order-by='classroomName'>
+                                {{"schedule.classroom" | translate}}
+                            </th>
+                            <th md-column style="width: 25%" md-order-by='startDate'>
+                                {{"schedule.startDate" | translate}}
+                            </th>
+                            <th md-column style="width: 25%" md-order-by='endDate'>
+                                {{"schedule.endDate" | translate}}
+                            </th>
+                            <th md-column style="width: 5%" md-order-by='status'>
+                                {{"schedule.status" | translate}}
+                            </th>
+                            <th md-column style="width: 10%" md-order-by='teacher'>
+                                {{"schedule.teacher" | translate}}
+                            </th>
+                            <th md-column style="width: 10%" md-order-by='RecurrenceId'>
+                                {{"schedule.isRecurrent" | translate}}
+                            </th>
+                            <th md-column style="width: 10%" md-order-by='action'>
+                                {{"schedule.action" | translate}}
+                            </th>
+                        </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row
-                        ng-repeat="lesson in lessons | filter:filter | filter:isItemRecurrent | filterDate:dateFrom:dateTo | orderBy: table.order | limitTo: itemsByPage: (currentPage - 1) * itemsByPage as filteredLessons">
-                        <td md-cell>
-                            <div>{{lesson.classroomName}}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{lesson.startDate | date: 'd/M/yy H:mm'}}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{lesson.endDate |  date: 'd/M/yy H:mm'}}</div>
-                        </td>                        
-                        <td md-cell>
-                            <div ng-bind-html="lesson.lessonStatus | scheduleStatus"></div>
-                        </td>
-                        <td md-cell>
-                            <div>{{lesson.username}}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{lesson.RecurrenceId ? "main.yes" : "main.no" | translate }}</div>
-                        </td>
-                        <td md-cell>
-                            <md-button ng-disabled="lesson.lessonStatus != 'present'" class="md-primary tm-action-button"
-                                       ng-click="deactivation(lesson)">
-                                <md-icon class="material-icons">power_settings_new</md-icon>
-                            </md-button>
-                            <md-button ng-disabled="lesson.lessonStatus == 'past'" class="md-primary tm-action-button"
-                                       ng-click="editSchedule(lesson)">
-                                <md-icon class="material-icons">edit</md-icon>
-                            </md-button>
-                            <md-button ng-disabled="lesson.lessonStatus == 'past'"  class="md-warn tm-action-button" 
-                                       ng-click="deleteSchedule(lesson.id, lesson.lessonStatus == 'present')">
-                                <md-icon class="material-icons">delete</md-icon>
-                            </md-button>
-                        </td>
-                    </tr>
+                        <tr md-row
+                            ng-repeat="lesson in lessons | filter:filter | filter:isItemRecurrent | filterDate:dateFrom:dateTo | orderBy: table.order | limitTo: itemsByPage: (currentPage - 1) * itemsByPage as filteredLessons">
+                            <td md-cell>
+                                <div>{{lesson.classroomName}}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{lesson.startDate | date: 'd/M/yy H:mm'}}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{lesson.endDate |  date: 'd/M/yy H:mm'}}</div>
+                            </td>
+                            <td md-cell>
+                                <div ng-bind-html="lesson.lessonStatus | scheduleStatus"></div>
+                            </td>
+                            <td md-cell>
+                                <div>{{lesson.username}}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{lesson.RecurrenceId ? "main.yes" : "main.no" | translate }}</div>
+                            </td>
+                            <td md-cell>
+                                <md-button ng-disabled="lesson.lessonStatus != 'present'"
+                                    class="md-primary tm-action-button" ng-click="deactivation(lesson)">
+                                    <md-icon class="material-icons">power_settings_new</md-icon>
+                                </md-button>
+                                <md-button ng-disabled="lesson.lessonStatus == 'past'"
+                                    class="md-primary tm-action-button" ng-click="editSchedule(lesson)">
+                                    <md-icon class="material-icons">edit</md-icon>
+                                </md-button>
+                                <md-button ng-disabled="lesson.lessonStatus != 'future'"
+                                    class="md-warn tm-action-button"
+                                    ng-click="deleteSchedule(lesson.id, lesson.lessonStatus == 'present')">
+                                    <md-icon class="material-icons">delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </md-table-container>
-            <md-table-pagination md-limit="itemsByPage" md-limit-options="[10, 20, 50, 100 ]"
-                                 md-page="currentPage"
-                                 md-total="{{(lessons | filter:filter | filter:isItemRecurrent | filterDate:dateFrom:dateTo).length}}"></md-table-pagination>
+            <md-table-pagination md-limit="itemsByPage" md-limit-options="[10, 20, 50, 100 ]" md-page="currentPage"
+                md-total="{{(lessons | filter:filter | filter:isItemRecurrent | filterDate:dateFrom:dateTo).length}}">
+            </md-table-pagination>
 
 
             <h4>{{ "main.recurrences" | translate }}</h4>
             <md-table-container>
                 <table md-table md-progress="requestForRecurrences">
                     <thead md-head md-order="table.order">
-                    <tr md-row>
-                        <th md-column style="width: 15%" md-order-by='classroomName'>
-                            {{"schedule.classroom" | translate}}
-                        </th>
-                        <th md-column style="width: 15%" md-order-by='startDate'>
-                            {{"schedule.startDate" | translate}}
-                        </th>
-                        <th md-column style="width: 15%" md-order-by='endDate'>
-                            {{"schedule.endDate" | translate}}
-                        </th>                       
-                        <th md-column style="width: 15%" md-order-by='status'>
-                            {{"recurrence.dayOfTheWeek" | translate}}
-                        </th>
-                        <th md-column style="width: 15%">
-                            {{"classroom.timeActivation" | translate}}
-                        </th>
-                        <th md-column style="width: 15%">
-                            {{"classroom.durationValue" | translate}}
-                        </th>            
-                        <th md-column style="width: 10%" md-order-by='action'>
-                            {{"schedule.action" | translate}}
-                        </th>
-                    </tr>
+                        <tr md-row>
+                            <th md-column style="width: 15%" md-order-by='classroomName'>
+                                {{"schedule.classroom" | translate}}
+                            </th>
+                            <th md-column style="width: 15%" md-order-by='startDate'>
+                                {{"schedule.startDate" | translate}}
+                            </th>
+                            <th md-column style="width: 15%" md-order-by='endDate'>
+                                {{"schedule.endDate" | translate}}
+                            </th>
+                            <th md-column style="width: 15%" md-order-by='status'>
+                                {{"recurrence.dayOfTheWeek" | translate}}
+                            </th>
+                            <th md-column style="width: 15%">
+                                {{"classroom.timeActivation" | translate}}
+                            </th>
+                            <th md-column style="width: 15%">
+                                {{"classroom.durationValue" | translate}}
+                            </th>
+                            <th md-column style="width: 10%" md-order-by='action'>
+                                {{"schedule.action" | translate}}
+                            </th>
+                        </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row
-                        ng-repeat="rec in recurrences | filter:filter | orderBy: table.order">
-                        <td md-cell>
-                            <div>{{ getClassroomName(rec.ClassroomId) }}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{rec.startDate | date: 'd/M/yy'}}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{rec.endDate |  date: 'd/M/yy'}}</div>
-                        </td>                        
-                        <td md-cell>
-                            <div>{{ "days." + rec.day | translate }}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{rec.hour + ':' + (rec.minute < 10 ? '0' : '') + rec.minute }}</div>
-                        </td>
-                        <td md-cell>
-                            <div>{{rec.duration}}</div>
-                        </td>
-                        <td md-cell>
-                            <md-button class="md-warn tm-action-button" 
-                                        ng-click="deleteRecurrence(rec.id)">
-                                <md-icon class="material-icons">delete</md-icon>
-                            </md-button>
-                        </td>
-                    </tr>
+                        <tr md-row ng-repeat="rec in recurrences | filter:filter | orderBy: table.order">
+                            <td md-cell>
+                                <div>{{ getClassroomName(rec.ClassroomId) }}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{rec.startDate | date: 'd/M/yy'}}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{rec.endDate |  date: 'd/M/yy'}}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{ "days." + rec.day | translate }}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{rec.hour + ':' + (rec.minute < 10 ? '0' : '') + rec.minute }}</div>
+                            </td>
+                            <td md-cell>
+                                <div>{{rec.duration}}</div>
+                            </td>
+                            <td md-cell>
+                                <md-button class="md-warn tm-action-button" ng-click="deleteRecurrence(rec.id)">
+                                    <md-icon class="material-icons">delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </md-table-container>
