@@ -123,10 +123,12 @@ Sqlite.prototype.updateDB = function(table, rowId, entries, callback) {
   var updateString = ''
   var fieldNumber = 0
   var escapedValue = ''
+  var value = ''
   for (var entry in entries) {
     if (entry == 'password' || entry == 'sshPassword') {
       if (entries[entry] != '') {
-        escapedValue = entries[entry].replace(/\'/g, "''")
+        value = '' + entries[entry]
+        escapedValue = value.replace(/\'/g, "''")
         if (fieldNumber != 0) {
           updateString += ',  '
         }
@@ -141,7 +143,8 @@ Sqlite.prototype.updateDB = function(table, rowId, entries, callback) {
       if (fieldNumber != 0) {
         updateString += ',  '
       }
-      escapedValue = entries[entry].replace(/\'/g, "''")
+      value = '' + entries[entry]
+      escapedValue = value.replace(/\'/g, "''")
       updateString += entry + "='" + escapedValue + "'"
       fieldNumber++
     }
@@ -161,6 +164,7 @@ Sqlite.prototype.insertDB = function(table, rows, callback) {
   var insertValues = ''
   var fieldNumber = 0
   var escapedValue = ''
+  var value = ''
   for (var field in rows) {
     if (fieldNumber != 0) {
       insertFields += ',  '
@@ -168,13 +172,15 @@ Sqlite.prototype.insertDB = function(table, rows, callback) {
     }
     if (field == 'password') {
       if (rows[field] != '') {
-        escapedValue = rows[field].replace(/\'/g, "''")
+        value = '' + rows[field]
+        escapedValue = value.replace(/\'/g, "''")
         insertFields += field
         insertValues += "'" + createHash(escapedValue) + "'"
         fieldNumber++
       }
     } else {
-      escapedValue = rows[field].replace(/\'/g, "''")
+      value = '' + rows[field]
+      escapedValue = value.replace(/\'/g, "''")
       insertFields += field
       insertValues += '"' + escapedValue + '"'
       fieldNumber++
