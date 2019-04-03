@@ -34,7 +34,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         return classroomService.isLoaded();
     };
 
-    $scope.activation = function(classroom){
+    $scope.activation = function (classroom) {
         $mdDialog.show({
             controller: 'DialogEnableController',
             templateUrl: 'modals/modalEnableContent.html',
@@ -48,7 +48,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         });
     };
 
-    $scope.deactivation = function(classroom){
+    $scope.deactivation = function (classroom) {
         $mdDialog.show({
             controller: "DialogConfirmController",
             templateUrl: "modals/modalConfirmContent.html",
@@ -57,7 +57,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
                     action: 'disableWifiForClassroom'
                 }
             }
-        }).then(function(){
+        }).then(function () {
             getClassrooms();
             var disableSchedule = scheduleService.disableScheduleForClassroom($rootScope.schoolId, classroom.id);
             disableSchedule.then(function (promise) {
@@ -67,7 +67,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         })
     };
 
-    $scope.planSchedule = function(classroom) {
+    $scope.planSchedule = function (classroom) {
         $mdDialog.show({
             controller: "DialogPlanScheduleController",
             templateUrl: "modals/modalPlanScheduleContent.html",
@@ -81,7 +81,7 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         });
     };
 
-    $scope.activateAll = function(classrooms){
+    $scope.activateAll = function (classrooms) {
         $mdDialog.show({
             controller: 'DialogEnableController',
             templateUrl: 'modals/modalEnableContent.html',
@@ -92,11 +92,11 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
             }
         }).then(function () {
             getClassrooms();
-        });        
+        });
     };
 
-    
-    $scope.deactivateAll = function(classrooms){
+
+    $scope.deactivateAll = function (classrooms) {
         $mdDialog.show({
             controller: "DialogConfirmController",
             templateUrl: "modals/modalConfirmContent.html",
@@ -105,7 +105,8 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
                     action: 'disableWifiForAllClassrooms'
                 }
             }
-        }).then(function(){
+        }).then(function () {
+            console.log(classrooms);
             getClassrooms();
             var disableMultipleSchedule = scheduleService.disableScheduleForMultipleClassrooms($rootScope.schoolId, classrooms);
             disableMultipleSchedule.then(function (promise) {
@@ -128,10 +129,10 @@ angular.module('Classroom').controller("ClassroomCtrl", function ($scope, $rootS
         });
     }
 
-    var refreshClassrooms = $interval(function(){
+    var refreshClassrooms = $interval(function () {
         getClassrooms();
-    }.bind(this), 60000);    
-  
+    }.bind(this), 60000);
+
     $scope.$on('$destroy', function () {
         $interval.cancel(refreshClassrooms);
     });
