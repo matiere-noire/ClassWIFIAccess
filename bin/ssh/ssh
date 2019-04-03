@@ -41,7 +41,8 @@ function connect(host, port, username, password, sshEvent) {
 function parseSSID(data) {
   var entries = data.split('\n')
   var ssid = ''
-  var ssidList = []
+  var ssidList = []    
+  logger.info('SSH >> parseSSID before : ' + parseSSID )
   for (var entry in entries) {
     var entryString = entries[entry]
     if (entryString.indexOf('ssid') == 0) {
@@ -72,6 +73,7 @@ function parseSSID(data) {
       }
     }
   }
+  logger.info('SSH >> parseSSID after : ' + ssidList )
   return ssidList
 }
 
@@ -120,7 +122,8 @@ module.exports.execute = function(deviceIP, commands, login, password, callback)
               commandString += 'interface wifi1 ssid ' + ssidList[ssid] + '\n'
             }
             commandString += 'no system led power-saving-mode\n'
-            commandString += 'system led brightness bright\n'
+            commandString += 'system led brightness bright\n'            
+            logger.info('SSH >> commandString : ' + commandString )
             commandReady++
             commandData = -1
             stream.write(commandString, function() {
@@ -135,7 +138,8 @@ module.exports.execute = function(deviceIP, commands, login, password, callback)
               commandString += 'no interface wifi1 ssid ' + ssidList[ssid] + '\n'
             }
             commandString += 'system led power-saving-mode on 4 off 64\n'
-            commandString += 'system led brightness off\n'
+            commandString += 'system led brightness off\n'    
+            logger.info('SSH >> commandString : ' + commandString )
             commandReady++
             commandData = -1
             stream.write(commandString, function() {
