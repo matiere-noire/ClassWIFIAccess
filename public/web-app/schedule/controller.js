@@ -117,7 +117,7 @@ angular.module('Schedule').controller("ScheduleCtrl", function ($scope, $rootSco
         });
     };
 
-     $scope.deleteSchedule = function(scheduleId){
+     $scope.deleteSchedule = function(scheduleId, active){
         $mdDialog.show({
             controller: "DialogConfirmController",
             templateUrl: "modals/modalConfirmContent.html",
@@ -127,11 +127,25 @@ angular.module('Schedule').controller("ScheduleCtrl", function ($scope, $rootSco
                 }
             }
         }).then(function() {
-            var requestForSchedule = scheduleService.deleteSchedule(scheduleId);
-            requestForSchedule.then(function (promise) {
-                if (promise && promise.error) $scope.$broadcast("apiError", promise.error);
-                else getSchedule();
-            })
+            if(active){                
+                var requestDisableSchedule = scheduleService.disableSchedule($rootScope.schoolId, scheduleId);
+                requestDisableSchedule.then(function(promiseDisable) {
+                    if (promiseDisable && promiseDisable.error) $scope.$broadcast("apiError", promiseDisable.error);
+                    else {
+                        var requestForSchedule = scheduleService.deleteSchedule(scheduleId);
+                        requestForSchedule.then(function (promiseDelete) {
+                            if (promiseDelete && promiseDelete.error) $scope.$broadcast("apiError", promiseDelete.error);
+                            else getSchedule();
+                        })
+                    };
+                })
+            }else{
+                var requestForSchedule = scheduleService.deleteSchedule(scheduleId);
+                requestForSchedule.then(function (promise) {
+                    if (promise && promise.error) $scope.$broadcast("apiError", promise.error);
+                    else getSchedule();
+                })
+            }            
         });
     };
 

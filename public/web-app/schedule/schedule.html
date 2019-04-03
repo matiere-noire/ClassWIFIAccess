@@ -107,7 +107,7 @@
                                 <md-icon class="material-icons">edit</md-icon>
                             </md-button>
                             <md-button ng-disabled="lesson.lessonStatus == 'past'"  class="md-warn tm-action-button" 
-                                       ng-click="deleteSchedule(lesson.id)">
+                                       ng-click="deleteSchedule(lesson.id, lesson.lessonStatus == 'present')">
                                 <md-icon class="material-icons">delete</md-icon>
                             </md-button>
                         </td>
