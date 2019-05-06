@@ -6,9 +6,7 @@ var apiAuth = require(appRoot + '/bin/ah_api/auth')
 module.exports.apiRequest = function (api, path, callback) {
   //Check if token is not expired
   if (new Date(Api.expireAt).getTime() < new Date().getTime()) {
-
-    logger.info('TTC : is expired ' + Api)
-    apiAuth.refreshToken(Api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiDataString) {
+    apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiDataString) {
       if (apiDataString) {
         var apiDataJSON = JSON.parse(apiDataString)
         if (apiDataJSON.hasOwnProperty('data')) {
@@ -31,7 +29,6 @@ module.exports.apiRequest = function (api, path, callback) {
       }
     })
   } else {
-    logger.info('TTC : isn\'t expired ' + Api)
     sendApiRequest(api, path, callback)
   }
 }
