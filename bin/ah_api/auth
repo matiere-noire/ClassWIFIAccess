@@ -52,11 +52,16 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     };
     logger.info('CA COMMENCE !!! ')
 
-    api.post('/services/oauth2/token:443', post_data).then(res => {
-        logger.info('FRESH !!! ')
-        logger.info(res)
-        logger.info('BYEEE')
-    })
+    api.post('/services/oauth2/token', post_data)
+        .then(res => {
+            logger.info('FRESH !!! ')
+            logger.info(res)
+            logger.info('BYEEE')
+        })
+        .catch(error => {
+            logger.info('ERROR !!! ')
+            logger.info(error)
+        })
 
     // var post_options = {
     //     host: 'hivm.colleges35.sib.fr',
