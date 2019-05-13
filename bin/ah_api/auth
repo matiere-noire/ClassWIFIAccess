@@ -57,7 +57,9 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
 
         logger.info('RefreshToken req');
         logger.info(res);
+        var data = '';
         res.on('data', function (chunk) {
+            data += chunk
             logger.info('RefreshToken Response: ' + chunk);
         });
     });
