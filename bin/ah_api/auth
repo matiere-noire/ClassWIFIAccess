@@ -35,7 +35,7 @@ module.exports.getPermanentToken = function (authCode, redirectUrl, secret, clie
 
 module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clientId, callback) {
     var options = {
-        host: 'http://hivm.colleges35.sib.fr',
+        host: 'https://hivm.colleges35.sib.fr',
         port: 443,
         path: '/services/acct/thirdparty/refreshtoken?refreshToken=' + refreshToken,
         method: 'POST',
