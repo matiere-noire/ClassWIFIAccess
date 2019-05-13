@@ -49,19 +49,21 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
         'client_id': clientId,
         'client_secret': secret,
         'refresh_token': refreshToken,
-        'grant_type': 'refresh_token',
+        'grant_type': 'refresh_token'
     });
-    logger.info('CA COMMENCE !!! ')
+    logger.info('REFRESH REQ ' + post_data)
 
     api.post('/services/oauth2/token', post_data)
         .then(res => {
-            logger.info('FRESH !!! ')
+            logger.info('REFRESH RES ')
             logger.info(res)
-            logger.info('BYEEE')
+            logger.info('REFRESH BYE')
+            callback(res)
         })
         .catch(error => {
-            logger.info('ERROR !!! ')
+            logger.info('REFRESH ERROR ')
             logger.info(error)
+            callback(error)
         })
 
     // var post_options = {
