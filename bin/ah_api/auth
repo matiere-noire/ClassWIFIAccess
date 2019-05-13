@@ -34,36 +34,41 @@ module.exports.getPermanentToken = function (authCode, redirectUrl, secret, clie
 };
 
 module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clientId, callback) {
-    var options = {
+    var post_options = {
         host: 'hivm.colleges35.sib.fr',
         rejectUnauthorized: false,
         port: 443,
-        path: '/services/acct/thirdparty/refreshtoken?refreshToken=' + refreshToken,
+        path: '/services/oauth2/token',
         method: 'POST',
         headers: {
-            'X-AH-API-CLIENT-SECRET': secret,
-            'X-AH-API-CLIENT-ID': clientId,
-            'X-AH-API-CLIENT-REDIRECT-URI': redirectUrl
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(post_data)
         }
     };
-    var req = https.request(options, function (res) {
-        logger.info('REQ HEADERS: ' + JSON.stringify(res.headers));
+    var post_data = querystring.stringify({
+        'client_id': clientId,
+        'client_secret': secret,
+        'refresh_token': refreshToken,
+        'grant_type': 'refresh_token',
+    });
+
+    var req = https.request(post_options, function (res) {
         res.setEncoding('utf8');
-        res.on('data', function (data) {
-            logger.info('REQ DATA');
-            logger.info(data);
-            callback(data);
+
+        logger.info('RefreshToken req');
+        res.on('data', function (chunk) {
+            logger.info('RefreshToken Response: ' + chunk);
         });
     });
 
     req.on('error', function (err) {
-        logger.info('REQ ERROR');
-        logger.info(err);
-        callback(err);
-    });
+        logger.info('RefreshToken Error : ' + err);
+        callback(err, null)
+    })
 
     // write data to request body
-    req.write('data\n');
-    req.write('data\n');
+    req.write(post_data);
     req.end();
+
+
 };

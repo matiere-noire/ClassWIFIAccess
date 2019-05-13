@@ -6,14 +6,16 @@ var apiAuth = require(appRoot + '/bin/ah_api/auth')
 module.exports.apiRequest = function (api, path, callback) {
   //Check if token is not expired
   if (new Date(api.expireAt).getTime() < new Date().getTime()) {
-    logger.info('REQ HELLO appel')
+    logger.info('RefreshToken HELLO appel')
     apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiDataString) {
 
-      logger.info('REQ HELLO: ' + apiDataString)
+      logger.info('RefreshToken HELLO: ' + apiDataString)
       if (apiDataString) {
         var apiDataJSON = JSON.parse(apiDataString)
         if (apiDataJSON.hasOwnProperty('data')) {
-          var apiReg = new Api.ApiSerializer(apiDataJSON.data)
+          var apiReg = new Api()
+          apiReg.refreshToken = apiDataJSON.data.refresh_token
+          apiReg.accessToken = apiDataJSON.data.access_token
           apiReg.id = api.id
           apiReg.SchoolId = api.SchoolId
           apiReg.updateDB(function (err) {

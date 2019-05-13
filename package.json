@@ -28,6 +28,7 @@
     "passport": "~0.3.0",
     "passport-local": "~1.0.0",
     "pug": "^2.0.0-beta3",
+    "querystring": "^0.2.0",
     "respawn": "~2.2.0",
     "rrule": "^2.6.0",
     "serve-favicon": "~2.3.0",
