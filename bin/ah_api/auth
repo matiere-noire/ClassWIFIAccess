@@ -1,5 +1,5 @@
 var https = require('https');
-var querystring = require('querystring');
+var axios = require('axios');
 var logger = require(appRoot + "/app").logger;
 
 module.exports.getPermanentToken = function (authCode, redirectUrl, secret, clientId, callback) {
@@ -35,48 +35,70 @@ module.exports.getPermanentToken = function (authCode, redirectUrl, secret, clie
 };
 
 module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clientId, callback) {
-    var post_options = {
-        host: 'hivm.colleges35.sib.fr',
-        rejectUnauthorized: false,
-        port: 443,
-        path: '/services/oauth2/token',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    };
-    var post_data = querystring.stringify({
+    var httpsAgent = new https.Agent({
+        rejectUnauthorized: false
+    })
+
+    const api = axios.create({
+        httpsAgent,
+        baseURL: 'https://hivm.colleges35.sib.fr'
+    })
+
+    var post_data = {
         'client_id': clientId,
         'client_secret': secret,
         'refresh_token': refreshToken,
         'grant_type': 'refresh_token',
-    });
+    };
+    logger.info('CA COMMENCE !!! ')
 
-    var req = https.request(post_options, function (res) {
-        res.setEncoding('utf8');
-
-        logger.info('RefreshToken req');
-        var data = '';
-        res.on('data', function (chunk) {
-            data += chunk
-
-            logger.info('RefreshToken Response: ' + chunk);
-        });
-
-        res.on('end', function () {
-            logger.info('RefreshToken End: ');
-            callback(data)
-        })
-    });
-
-    req.on('error', function (err) {
-        logger.info('RefreshToken Error : ' + err);
-        callback(err, null)
+    api.post('/services/oauth2/token:443', post_data).then(res => {
+        logger.info('FRESH !!! ')
+        logger.info(res)
+        logger.info('BYEEE')
     })
 
-    // write data to request body
-    req.write(post_data);
-    req.end();
+    // var post_options = {
+    //     host: 'hivm.colleges35.sib.fr',
+    //     rejectUnauthorized: false,
+    //     port: 443,
+    //     path: '/services/oauth2/token',
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/x-www-form-urlencoded'
+    //     }
+    // };
+    // var post_data = {
+    //     'client_id': clientId,
+    //     'client_secret': secret,
+    //     'refresh_token': refreshToken,
+    //     'grant_type': 'refresh_token',
+    // };
+
+    // var req = https.request(post_options, function (res) {
+    //     res.setEncoding('utf8');
+
+    //     logger.info('RefreshToken req');
+    //     var data = '';
+    //     res.on('data', function (chunk) {
+    //         data += chunk
+    //         logger.info('RefreshToken Response: ' + chunk);
+    //     });
+
+    //     res.on('end', function () {
+    //         logger.info('RefreshToken End: ');
+    //         callback(data)
+    //     })
+    // });
+
+    // req.on('error', function (err) {
+    //     logger.info('RefreshToken Error : ' + err);
+    //     callback(err, null)
+    // })
+
+    // // write data to request body
+    // req.write(post_data);
+    // req.end();
 
 
 };
