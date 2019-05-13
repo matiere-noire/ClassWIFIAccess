@@ -44,7 +44,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
         baseURL: 'https://hivm.colleges35.sib.fr'
     })
 
-    var post_data = JSON.stringify({
+    var post_data = querystring.stringify({
         'client_id': clientId,
         'client_secret': secret,
         'refresh_token': refreshToken,
