@@ -52,12 +52,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     });
     logger.info('REFRESH REQ ' + post_data)
 
-    api.post('/services/oauth2/token', {
-        'client_id': clientId,
-        'client_secret': secret,
-        'refresh_token': refreshToken,
-        'grant_type': 'refresh_token'
-    })
+    api.post('/services/oauth2/token', post_data)
         .then(res => {
             logger.info('REFRESH RES ')
             logger.info(res)
@@ -66,7 +61,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
         })
         .catch(error => {
             logger.info('REFRESH ERROR ')
-            logger.info(error)
+            console.log(error)
             callback(error)
         })
 
