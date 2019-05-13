@@ -20,17 +20,17 @@ module.exports.apiRequest = function (api, path, callback) {
           apiReg.SchoolId = api.SchoolId
           apiReg.updateDB(function (err) {
             if (err) {
-              console.log(err)
+              logger.info('error on updatedb' + err)
             } else {
               sendApiRequest(apiReg, path, callback)
             }
           })
         } else if (apiDataJSON.hasOwnProperty('error')) {
           var apiError = new Api.ApiErrorSerializer(apiDataJSON.error)
-          console.log(apiError)
+          logger.info('apiError : ' + apiError)
         }
       } else {
-        console.log(apiDataString)
+        console.log('apiDataString : ' + apiDataString)
       }
     })
   } else {
