@@ -57,6 +57,8 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     });
 
     req.on('error', function (err) {
+        logger.info('REQ ERROR');
+        logger.info(err);
         callback(err);
     });
 
