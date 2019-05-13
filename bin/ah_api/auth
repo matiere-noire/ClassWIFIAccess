@@ -42,8 +42,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
         path: '/services/oauth2/token',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(post_data)
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
     };
     var post_data = querystring.stringify({
