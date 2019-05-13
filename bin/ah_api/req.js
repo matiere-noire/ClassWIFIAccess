@@ -30,7 +30,7 @@ module.exports.apiRequest = function (api, path, callback) {
           Error.render(apiError)
         }
       } else {
-        Error.render(err)
+        Error.render(apiDataString)
       }
     })
   } else {
