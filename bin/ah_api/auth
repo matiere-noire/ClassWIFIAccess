@@ -41,7 +41,6 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     })
 
     const api = axios.create({
-        httpsAgent,
         baseURL: 'https://hivm.colleges35.sib.fr'
     })
 
@@ -53,7 +52,12 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     });
     logger.info('REFRESH REQ ' + post_data)
 
-    api.post('/services/oauth2/token', post_data)
+    api.post('/services/oauth2/token', {
+        'client_id': clientId,
+        'client_secret': secret,
+        'refresh_token': refreshToken,
+        'grant_type': 'refresh_token'
+    })
         .then(res => {
             logger.info('REFRESH RES ')
             logger.info(res)
