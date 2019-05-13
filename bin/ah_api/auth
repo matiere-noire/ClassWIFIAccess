@@ -41,6 +41,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     })
 
     const api = axios.create({
+        httpsAgent,
         baseURL: 'https://hivm.colleges35.sib.fr'
     })
 
