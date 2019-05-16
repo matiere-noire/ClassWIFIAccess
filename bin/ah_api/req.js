@@ -9,20 +9,22 @@ module.exports.apiRequest = function (api, path, callback) {
     apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiData) {
 
       if (apiData && apiData.access_token) {
-        var apiRows = new Api()
-        apiRows.refreshToken = apiData.refresh_token
-        apiRows.accessToken = apiData.access_token
-        apiRows.id = api.id
-        apiRows.SchoolId = api.SchoolId
-        apiRows.ownerId = api.ownerId
-        apiRows.expireAt = new Date(new Date() + apiData.expires_in * 1000).getTime()
+        var apiRows = {
+          id: api.id,
+          vhmId: api.vhmId,
+          vpcUrl: api.vpcUrl,
+          SchoolId: api.SchoolId,
+          refreshToken: apiData.refresh_token,
+          accessToken: apiData.accessToken,
+          expireAt: new Date(new Date() + apiData.expires_in * 1000).getTime()
+        };
 
-        // logger.info('RefreshToken 1 : ' + apiData)
-        // logger.info('RefreshToken 2 : ' + apiData.access_token)
-        // logger.info('RefreshToken 3 : ' + apiData.refresh_token)
+        logger.info('RefreshToken 1 : ' + apiData)
+        logger.info('RefreshToken 2 : ' + apiData.access_token)
+        logger.info('RefreshToken 3 : ' + apiData.refresh_token)
 
         var apiSer = new Api.ApiSerializer(apiRows)
-        apiSer.updateDB(function (err) {
+        apiSer.updateDB(api.id, function (err) {
           if (err) {
             logger.info('error on updatedb' + err)
           } else {
