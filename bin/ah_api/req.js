@@ -9,14 +9,19 @@ module.exports.apiRequest = function (api, path, callback) {
     apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiData) {
 
       if (apiData) {
-        var apiReg = new Api()
-        apiReg.refreshToken = apiData.refresh_token
-        apiReg.accessToken = apiData.access_token
-        apiReg.id = api.id
-        apiReg.SchoolId = api.SchoolId
-        logger.info('RefreshToken WATCH THIS 1 : ' + apiData)
-        logger.info('RefreshToken WATCH THIS 2 : ' + apiData.access_token)
-        apiReg.updateDB(function (err) {
+        var apiRows = new Api()
+        apiRows.refreshToken = apiData.refresh_token
+        apiRows.accessToken = apiData.access_token
+        apiRows.id = api.id
+        apiRows.SchoolId = api.SchoolId
+        apiRows.expireAt = new Date(new Date() + apiData.expires_in * 1000).getTime()
+
+        // logger.info('RefreshToken 1 : ' + apiData)
+        // logger.info('RefreshToken 2 : ' + apiData.access_token)
+        // logger.info('RefreshToken 3 : ' + apiData.refresh_token)
+
+        var apiSer = new Api.ApiSerializer(apiRows)
+        apiSer.updateDB(function (err) {
           if (err) {
             logger.info('error on updatedb' + err)
           } else {
@@ -24,11 +29,10 @@ module.exports.apiRequest = function (api, path, callback) {
           }
         })
       } else {
-        console.log('!!!!!!!!!!! apiData : ' + apiData)
+        logger.info('REQ GOODBYE appel')
       }
     })
   } else {
-    logger.info('REQ GOODBYE appel')
     sendApiRequest(api, path, callback)
   }
 }
