@@ -45,12 +45,12 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
         baseURL: 'https://hivm.colleges35.sib.fr'
     })
 
-    var post_data = {
+    var post_data = querystring.stringify({
         'client_id': clientId,
         'client_secret': secret,
         'refresh_token': refreshToken,
         'grant_type': 'refresh_token'
-    };
+    });
     logger.info('REFRESH REQ ' + post_data)
 
     api.post('/acct-webapp/services/oauth2/token', post_data)
