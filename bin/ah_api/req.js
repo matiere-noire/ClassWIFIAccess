@@ -15,8 +15,8 @@ module.exports.apiRequest = function (api, path, callback) {
           vpcUrl: api.vpcUrl,
           SchoolId: api.SchoolId,
           refreshToken: apiData.refresh_token,
-          accessToken: apiData.accessToken,
-          expireAt: new Date(new Date() + apiData.expires_in * 1000).getTime()
+          accessToken: apiData.access_token,
+          expireAt: new Date(new Date().getTime() + apiData.expires_in * 1000).getTime()
         };
 
         logger.info('RefreshToken 1 : ' + apiData)
