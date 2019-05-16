@@ -22,13 +22,16 @@ module.exports.apiRequest = function (api, path, callback) {
         logger.info('RefreshToken 1 : ' + apiData)
         logger.info('RefreshToken 2 : ' + apiData.access_token)
         logger.info('RefreshToken 3 : ' + apiData.refresh_token)
+        logger.info('RefreshToken 4 : ' + apiData.expires_in)
 
         var apiSer = new Api.ApiSerializer(apiRows)
         apiSer.updateDB(api.id, function (err) {
           if (err) {
             logger.info('error on updatedb' + err)
           } else {
-            sendApiRequest(apiReg, path, callback)
+            Api.findById(api.id, null, null, function (err, updatedApi) {
+              sendApiRequest(updatedApi, path, callback)
+            });
           }
         })
       } else {
