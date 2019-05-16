@@ -41,6 +41,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     })
 
     const api = axios.create({
+        httpsAgent,
         baseURL: 'https://hivm.colleges35.sib.fr'
     })
 
@@ -52,11 +53,7 @@ module.exports.refreshToken = function (refreshToken, redirectUrl, secret, clien
     };
     logger.info('REFRESH REQ ' + post_data)
 
-    axios({
-        method: "POST",
-        url: 'https://hivm.colleges35.sib.fr/services/oauth2/token',
-        data: post_data
-    })
+    api.post('/acct-webapp/services/oauth2/token', post_data)
         .then(res => {
             logger.info('REFRESH RES ')
             logger.info(res)
