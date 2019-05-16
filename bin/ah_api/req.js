@@ -11,6 +11,7 @@ module.exports.apiRequest = function (api, path, callback) {
       if (apiData && apiData.access_token) {
         var apiRows = {
           id: api.id,
+          ownerId: api.ownerId,
           vhmId: api.vhmId,
           vpcUrl: api.vpcUrl,
           SchoolId: api.SchoolId,
