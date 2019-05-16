@@ -8,12 +8,13 @@ module.exports.apiRequest = function (api, path, callback) {
   if (new Date(api.expireAt).getTime() < new Date().getTime()) {
     apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiData) {
 
-      if (apiData) {
+      if (apiData && apiData.access_token) {
         var apiRows = new Api()
         apiRows.refreshToken = apiData.refresh_token
         apiRows.accessToken = apiData.access_token
         apiRows.id = api.id
         apiRows.SchoolId = api.SchoolId
+        apiRows.ownerId = api.ownerId
         apiRows.expireAt = new Date(new Date() + apiData.expires_in * 1000).getTime()
 
         // logger.info('RefreshToken 1 : ' + apiData)
