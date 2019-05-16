@@ -6,31 +6,25 @@ var apiAuth = require(appRoot + '/bin/ah_api/auth')
 module.exports.apiRequest = function (api, path, callback) {
   //Check if token is not expired
   if (new Date(api.expireAt).getTime() < new Date().getTime()) {
-    logger.info('RefreshToken HELLO appel')
-    apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiDataString) {
+    apiAuth.refreshToken(api.refreshToken, Api.getRedirectUrl(), Api.getSecret(), Api.getClientId(), function (apiData) {
 
-      logger.info('RefreshToken HELLO: ' + apiDataString)
-      if (apiDataString) {
-        var apiDataJSON = JSON.parse(apiDataString)
-        if (apiDataJSON.hasOwnProperty('data')) {
-          var apiReg = new Api()
-          apiReg.refreshToken = apiDataJSON.data.refresh_token
-          apiReg.accessToken = apiDataJSON.data.access_token
-          apiReg.id = api.id
-          apiReg.SchoolId = api.SchoolId
-          apiReg.updateDB(function (err) {
-            if (err) {
-              logger.info('error on updatedb' + err)
-            } else {
-              sendApiRequest(apiReg, path, callback)
-            }
-          })
-        } else if (apiDataJSON.hasOwnProperty('error')) {
-          var apiError = new Api.ApiErrorSerializer(apiDataJSON.error)
-          logger.info('apiError : ' + apiError)
-        }
+      if (apiData) {
+        var apiReg = new Api()
+        apiReg.refreshToken = apiData.refresh_token
+        apiReg.accessToken = apiData.access_token
+        apiReg.id = api.id
+        apiReg.SchoolId = api.SchoolId
+        logger.info('RefreshToken WATCH THIS 1 : ' + apiData)
+        logger.info('RefreshToken WATCH THIS 2 : ' + apiData.access_token)
+        apiReg.updateDB(function (err) {
+          if (err) {
+            logger.info('error on updatedb' + err)
+          } else {
+            sendApiRequest(apiReg, path, callback)
+          }
+        })
       } else {
-        console.log('apiDataString : ' + apiDataString)
+        console.log('!!!!!!!!!!! apiData : ' + apiData)
       }
     })
   } else {
